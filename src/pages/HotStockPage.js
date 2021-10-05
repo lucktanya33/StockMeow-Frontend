@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
-import { API_STOCK_LOCAL, API_STOCK_REMOTE } from './../utils'
+import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE } from './../utils'
 
 function HotStockPage() {
   // states
@@ -14,15 +14,17 @@ function HotStockPage() {
   const [targetStockPrice, setTargetStockPrice] = useState([])
   const [searchingErr, setSearchingErr] = useState(null)
 
+
   const getStockPrice = () => {
-    fetch(`${API_STOCK_REMOTE}/price.php`)
+    fetch(API_HEROKU_PRICE)// `${API_STOCK_REMOTE}/price.php`
     .then(response =>{
        return  response.json()
     })
     .then( data =>{
       const dataArray = data.stock_try
       // method-slice
-      const dataSingleStock = dataArray.slice(10037, 11019)
+      //const dataSingleStock = dataArray.slice(10037, 11019)
+      const dataSingleStock = dataArray.slice(11860, 12844)
       setStockInfoPrice(dataSingleStock)
     })
   }
@@ -38,7 +40,6 @@ function HotStockPage() {
     })
     .then( data =>{
       const dataArray = data.stock_try
-      console.log(dataArray.length);
       setStockInfo(dataArray)
       getStockPrice()
       // searching

@@ -35,7 +35,6 @@ return (
     <Router>
       <Header />
       <h3>登入狀態</h3>
-      <h3>測試重新PUSH</h3>
       {user && `${user.username}已登入`}
       <Switch>   
         <Route exact path="/">
