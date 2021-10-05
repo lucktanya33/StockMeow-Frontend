@@ -34,7 +34,7 @@ function HotStockPage() {
     setTargetStockInfo([])
     setTargetStockPrice([])
 
-    fetch(`${API_STOCK_REMOTE}/try.php`)
+    fetch(API_HEROKU_PRICE)// `${API_STOCK_REMOTE}/try.php`
     .then(response =>{
        return  response.json()
     })
