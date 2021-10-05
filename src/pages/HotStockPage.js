@@ -39,6 +39,7 @@ function HotStockPage() {
        return  response.json()
     })
     .then( data =>{
+      console.log('test get api times', data);
       const dataArray = data.stock_try
       setStockInfo(dataArray)
       getStockPrice()
