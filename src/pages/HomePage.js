@@ -3,7 +3,6 @@ import Axios from "axios";
 import styled from "styled-components"
 import { API_PRODUCTION } from "../utils";
 import { AuthContext } from "../context"
-const API_ENDPOINT = 'https://student-json-api.lidemy.me/comments'
 
 // styled components
 const Page = styled.div`
@@ -89,7 +88,6 @@ function Message({ id, author, time, title, content, deleteTest }) {
       </MessageHead>
       <MessageTitle>{title}</MessageTitle>
       <MessageBody>{content}</MessageBody>
-      <DeleteButton onClick={() => {deleteTest(id)}}>刪除</DeleteButton>
     </MessageContainer>
   )
 }
@@ -114,27 +112,26 @@ function HomePage() {
   const { user, setUser } = useContext(AuthContext)
 
   const updateMessages = () => {
-    fetch(API_ENDPOINT)
-    .then(res => res.json())
-    .then((data) => {
-      setMessages(data)
+    Axios.get(`${API_PRODUCTION}/posts`)
+    .then((response) => {
+      setMessages(response.data)
     })
     .catch((err) => {
       setMessageApiError(err.message)
     })
   }
 
-  const updateMessages2 = () => {
-    Axios.get(`${API_PRODUCTION}/posts`)
-    .then((response) => {
-      setMessages(response.data)
-    })
-  }
-
   const handleFormSubmit2 = () => {
+    setIsSubmitting(true)
     Axios.post(`${API_PRODUCTION}/create-post`, {inputTitle, inputBody})
     .then((response) => {
       console.log(response);
+      setIsSubmitting(false)
+      updateMessages()
+    })
+    .catch(err => {
+      setIsSubmitting(false)
+      setPostMessageError(err.message)
     })
   }
 
@@ -174,7 +171,6 @@ function HomePage() {
         setPostMessageError(data.message)
         return
       }
-      updateMessages()
       setInputValue('')
     })
     .catch(err => {
@@ -187,19 +183,9 @@ function HomePage() {
     setPostMessageError(null)
   }
 
-  const deleteTest = (id) => {
-    fetch( `https://student-json-api.lidemy.me/comments/${id}`, {
-      method: 'DELETE'
-    })
-    .then(response => response.json())
-    .then(data => updateMessages()) 
-    .catch(err => console.log(err)) 
-  }
-
   return (
     <Page>
       {isSubmitting && <Loading>正在送出...</Loading>}
-      <button onClick={updateMessages2}>測試API</button>
       <MessageForm onSubmit={handleFormSubmit2}>
         <TitleInput
         rows={2}
@@ -218,16 +204,6 @@ function HomePage() {
       </MessageForm>
 
       <Title>發表你對股市的看法...</Title>
-      <MessageForm onSubmit={handleFormSubmit}>
-        <MessageTextArea
-        rows={10}
-        value={inputValue}
-        onChange={handleTextareaChange}
-        onFocus={handleTextareaFocus}
-        />
-        <SubmitButton>送出留言</SubmitButton>
-        {postMessageError && <ErrorMessage>{postMessageError}</ErrorMessage>}
-      </MessageForm>
       {messageApiError && (
       <ErrorMessage>
         Something went wrong: {messageApiError.toString()}
@@ -241,7 +217,6 @@ function HomePage() {
           title={message.title}
           content={message.body}
           time={new Date(message.createdAt).toLocaleString()}
-          deleteTest={deleteTest}
           >
           {message.body}
           </Message>

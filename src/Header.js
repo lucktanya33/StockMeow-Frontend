@@ -3,7 +3,7 @@ import Axios from "axios";
 import styled from "styled-components"
 import { Link, useLocation } from "react-router-dom";
 import { AuthContext } from './context'
-import { API_LOCAL, API_PRODUCTION } from "./utils";
+import { API_PRODUCTION } from "./utils";
 
 // styles
 const HeaderContainer = styled.div`
@@ -94,13 +94,14 @@ function Header() {
     <LeftContainer>
     <Brand to="/">玩股喵</Brand>
     <NavbarList>    
-      <Nav to="/" $active={location.pathname === '/'}>首頁</Nav>
-      <Nav to="/register" $active={location.pathname === '/register'}>註冊</Nav>
-      <Nav to="/posting" $active={location.pathname === '/posting'}>發布</Nav>
-      <Nav to="/stock-hot" $active={location.pathname === '/stock-hot'}>熱門</Nav>
+      <Nav to="/" $active={location.pathname === '/'}>討論區</Nav>
+      <Nav to="/stock-hot" $active={location.pathname === '/stock-hot'}>查股票</Nav>
     </NavbarList>
     </LeftContainer>
     <NavbarList>
+      {!user && (
+        <Nav to="/register" $active={location.pathname === '/register'}>註冊</Nav>
+      )}      
       {!user && (
         <Nav to="/login" $active={location.pathname === '/login'}>登入</Nav>
       )}

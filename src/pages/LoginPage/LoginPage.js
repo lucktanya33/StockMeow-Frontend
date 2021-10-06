@@ -34,6 +34,7 @@ const handleLogin = () => {
     if (response.data.message) {
       setErrMessageLogin(response.data.message)
     } else {
+      console.log(response);
       setUser(response.data[0])
     }
   })
