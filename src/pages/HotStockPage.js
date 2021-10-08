@@ -19,8 +19,8 @@ const Loading = styled.div`
 
 function HotStockPage() {
   // states
-  // 載入資料是否完成
-  const [isLoaded, setIsLoaded] = useState(null)
+  // 載入頁面
+  const [LoadingPage, setLoadingPage] = useState(true)
   // API拿到的資料
   const [stockInfoPE, setStockInfoPE] = useState([])
   const [stockInfoPrice, setStockInfoPrice] = useState([])
@@ -34,6 +34,10 @@ function HotStockPage() {
   // useEffect (每次render先串API拿資料存到states)
   useEffect(() => {
     setStockInfo()
+    const timer = setTimeout(() => {
+      setLoadingPage(false)//六秒後拿掉loading畫面
+    }, 6000);
+    return () => clearTimeout(timer);
   }, [])
 
   const setStockInfo = () => {
@@ -46,7 +50,7 @@ function HotStockPage() {
       const dataPrice = data.stock_try
       const Price = dataPrice.filter(item => item.Code < 10000)//拿出權證以外的資料
       setStockInfoPrice(Price)
-      setIsLoaded(true)
+      //setIsLoaded(true)
     })
     // 拿資料-本益比
     fetch(API_HEROKU_PE)
@@ -92,8 +96,8 @@ function HotStockPage() {
   }
   return (
     <div>
-    {!isLoaded && <Loading>1102檔台股資料載入中...</Loading>}
-    {isLoaded && (
+    {LoadingPage && <Loading>正在幫您載入1102檔台股中...</Loading>}
+    {!LoadingPage && (
     <div> 
     <h1>熱門股票</h1>
     <form onSubmit={handleSearch}>
