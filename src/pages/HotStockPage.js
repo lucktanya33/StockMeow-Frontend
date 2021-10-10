@@ -83,7 +83,7 @@ function HotStockPage() {
   // 查詢後結果
   const [targetPrice, setTargetPrice] = useState([])
   const [targetPE, setTargetPE] = useState([])
-  const [searchingErr, setSearchingErr] = useState(null)
+  const [searchFail, setSearchFail] = useState(false) 
 
   // useEffect (每次render先串API拿資料存到states)
   useEffect(() => {
@@ -129,6 +129,7 @@ function HotStockPage() {
 
   const handleSearch = () => {
     // 清空
+    setSearchFail(false)
     setTargetPrice([])
     setTargetPE([])
     // searching
@@ -149,14 +150,10 @@ function HotStockPage() {
           setTargetPE(targetPEByName)
         }
       } else {
-        setSearchingErr('無效的查詢，請輸入正確代號或名稱')
+        setSearchFail(true)
         setTargetPrice([])
         setTargetPE([])
       }
-  }
-
-  const clearSearchingErr = () => {
-    setSearchingErr(null)
   }
 
   const handleAddFav = () => {
@@ -181,12 +178,12 @@ function HotStockPage() {
       <SearchInput
       placeholder="輸入上市股票名稱/代號"
       onChange={(e) => setStockSearching(e.target.value)}
-      onFocus={clearSearchingErr}
       />
       <SearchButton>查詢</SearchButton>
     </form>
-    <h4>{searchingErr}</h4>
     </SearchArea>
+    {searchFail && <h2>無效的查詢，請輸入正確代號或名稱</h2>}
+    {!searchFail && (
     <TargetWrap>
     <TargetHeader>
     <div>
@@ -203,8 +200,9 @@ function HotStockPage() {
     </div>
     </TargetHeader>
     </TargetWrap>
+    )}
     </Page>
-    </div>     
+    </div>    
     )}
     </div>
   )
