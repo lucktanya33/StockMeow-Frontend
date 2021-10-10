@@ -38,19 +38,27 @@ const SearchButton = styled.button`
 `
 const TargetWrap = styled.div`
   width: 100%;
-`
-const TargetHeader = styled.div`
-  width: 100%;
   border: 1px solid blue;
 `
-const TargetName = styled.div`
-  height: 70px;
+const TargetHeader = styled.div`
   display: flex;
-  justify-content: space-between;
+  width: 100%;
+  padding: 5px;
+  box-sizing: border-box;
+`
+const TargetName = styled.span`
+  width: 60%;
   padding: 0px 5px 0px 5px;
   font-size : 28px;
   font-weight: bold;
   color: black;
+`
+const Time = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40%;
+  font-size: 14px;
 `
 const Button = styled.button`
   cursor: pointer;
@@ -82,14 +90,20 @@ function HotStockPage() {
   // 查詢後結果
   const [targetPrice, setTargetPrice] = useState([])
   const [targetPE, setTargetPE] = useState([])
-  const [searchFail, setSearchFail] = useState(false) 
+  const [searchFail, setSearchFail] = useState(false)
+
+  // 設定時間
+  const today = new Date()
+  const countYesterday = today - 1000*60*60*24
+  const yesterday = new Date(countYesterday)
+  const latestTime = yesterday.toLocaleDateString()
 
   // useEffect (每次render先串API拿資料存到states)
   useEffect(() => {
     setStockInfo()
     const timer = setTimeout(() => {
       setLoadingPage(false)//六秒後拿掉loading畫面
-    }, 6000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, [])
 
@@ -185,10 +199,11 @@ function HotStockPage() {
     {!searchFail && (
     <TargetWrap>
       <TargetHeader>
-      <div>
         <TargetName>
-          <p> {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}</p>
+          {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}
         </TargetName>
+        <Time>{"更新時間 "}{latestTime}</Time>
+      </TargetHeader>
         <TargetInfo>
           <Info>
             <p>股價</p>
@@ -208,8 +223,6 @@ function HotStockPage() {
           </Info>
         </TargetInfo>
         <Button onClick={handleAddFav}>加入追蹤</Button>
-      </div>
-      </TargetHeader>
     </TargetWrap>
     )}
     </Page>
