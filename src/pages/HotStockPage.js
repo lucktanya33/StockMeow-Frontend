@@ -36,7 +36,6 @@ const SearchButton = styled.button`
   height: 50px;
   cursor: pointer;
 `
-
 const TargetWrap = styled.div`
   width: 100%;
 `
@@ -62,13 +61,13 @@ const Button = styled.button`
   text-align: center;
   cursor: pointer;
 `
-
 const TargetInfo = styled.div`
   padding: 0px 5px 0px 5px;
   display: flex;
   justify-content: space-around;
 `
-
+const Info = styled.div`
+`
 function HotStockPage() {
   // states
   // 載入頁面
@@ -191,13 +190,22 @@ function HotStockPage() {
       <p> {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}</p>
     </TargetName>
     <TargetInfo>
-      <div>
+      <Info>
       <p>股價</p>
       <p>{targetPrice.map(item => item.ClosingPrice)}</p>
-      </div>
-      <p> 月均價{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
-      <p> 本益比{targetPE.map(item => item.PEratio)}</p>
-      <p> 殖利率{targetPE.map(item => item.DividendYield)}</p>
+      </Info>
+      <Info>
+      <p>月均價</p>
+      <p>{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
+      </Info>
+      <Info>
+      <p>本益比</p>
+      <p>{targetPE.map(item => item.PEratio)}</p>
+      </Info>
+      <Info>
+      <p>殖利率</p>
+      <p>{targetPE.map(item => item.DividendYield)}</p>
+      </Info>          
     </TargetInfo>
     <Button onClick={handleAddFav}>加入追蹤</Button>
     </div>
