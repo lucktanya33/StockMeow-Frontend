@@ -191,7 +191,10 @@ function HotStockPage() {
       <p> {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}</p>
     </TargetName>
     <TargetInfo>
-      <p> 股價{targetPrice.map(item => item.ClosingPrice)}</p>
+      <div>
+      <p>股價</p>
+      <p>{targetPrice.map(item => item.ClosingPrice)}</p>
+      </div>
       <p> 月均價{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
       <p> 本益比{targetPE.map(item => item.PEratio)}</p>
       <p> 殖利率{targetPE.map(item => item.DividendYield)}</p>
