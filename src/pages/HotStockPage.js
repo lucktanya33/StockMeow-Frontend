@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
-import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE } from './../utils'
+import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from './../utils'
 
 const Loading = styled.div`
   position: fixed;
@@ -16,6 +16,58 @@ const Loading = styled.div`
   align-items: center;
   justify-content: center;
 `
+const Page = styled.div`
+  width: 360px;
+  margin: 0 auto;
+  border: 1px solid blue;
+`
+const SearchArea = styled.div`
+  width: 100%;
+`
+const SearchInput = styled.input`
+  width: 75%;
+  height: 50px;
+  margin: 0px 5px 0px 5px;
+  border-radius: 5px;
+`
+const SearchButton = styled.button`
+  width: 15%;
+  margin: 0px 5px 0px 5px;
+  height: 50px;
+  cursor: pointer;
+`
+
+const TargetWrap = styled.div`
+  width: 100%;
+`
+const TargetHeader = styled.div`
+  width: 100%;
+  border: 1px solid blue;
+`
+const TargetName = styled.div`
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 5px 0px 5px;
+  font-size : 28px;
+  font-weight: bold;
+  color: black;
+`
+const Button = styled.button`
+  cursor: pointer;
+  width: 30%;
+  margin: 0px 5px 0px 5px;
+  height: 35px;
+  background-color : pink;
+  text-align: center;
+  cursor: pointer;
+`
+
+const TargetInfo = styled.div`
+  padding: 0px 5px 0px 5px;
+  display: flex;
+  justify-content: space-around;
+`
 
 function HotStockPage() {
   // states
@@ -24,6 +76,8 @@ function HotStockPage() {
   // API拿到的資料
   const [stockInfoPE, setStockInfoPE] = useState([])
   const [stockInfoPrice, setStockInfoPrice] = useState([])
+  // 確認載入資料
+  const [isInfoLoaded, setIsInfoLoaded] = useState(false)
   // 輸入查詢
   const [stockSearching, setStockSearching] = useState(null)
   // 查詢後結果
@@ -40,6 +94,14 @@ function HotStockPage() {
     return () => clearTimeout(timer);
   }, [])
 
+  // useEffect 資料載入完顯示預設股票
+  useEffect(() => {
+    setStockSearching(2330)
+    if (isInfoLoaded) {
+      handleSearch()
+    }
+  },[isInfoLoaded])
+
   const setStockInfo = () => {
     // 拿資料-價格
     fetch(API_HEROKU_PRICE)// `${API_STOCK_REMOTE}/price.php`
@@ -48,9 +110,11 @@ function HotStockPage() {
     })
     .then( data =>{
       const dataPrice = data.stock_try
-      const Price = dataPrice.filter(item => item.Code < 10000)//拿出權證以外的資料
-      setStockInfoPrice(Price)
-      //setIsLoaded(true)
+      const price = dataPrice.filter(item => item.Code < 10000)//拿出權證以外的資料
+      setStockInfoPrice(price)
+      if (price.length > 1000) {
+        setIsInfoLoaded(true)
+      }
     })
     // 拿資料-本益比
     fetch(API_HEROKU_PE)
@@ -94,28 +158,52 @@ function HotStockPage() {
   const clearSearchingErr = () => {
     setSearchingErr(null)
   }
+
+  const handleAddFav = () => {
+    console.log(targetPrice[0].Code);
+    Axios.post(`${API_LOCAL}/my-fav`, {
+      stockCode: targetPrice[0].Code
+    }).then(
+      response => {
+        console.log('post my fav code', response);
+      }
+    )
+  }
   return (
     <div>
     {LoadingPage && <Loading>正在幫您載入1102檔台股中...</Loading>}
     {!LoadingPage && (
     <div> 
-    <h1>熱門股票</h1>
+    <Page>
+    <h3>查詢你想了解的上市股票</h3>
+    <SearchArea>
     <form onSubmit={handleSearch}>
-      <input
+      <SearchInput
       placeholder="輸入上市股票名稱/代號"
       onChange={(e) => setStockSearching(e.target.value)}
       onFocus={clearSearchingErr}
       />
-      <button>查詢</button>
+      <SearchButton>查詢</SearchButton>
     </form>
-    <h3>{searchingErr}</h3>
+    <h4>{searchingErr}</h4>
+    </SearchArea>
+    <TargetWrap>
+    <TargetHeader>
     <div>
-      <h3> 名稱：{targetPE.map(item => item.Name)}</h3>
-      <h3> 股價：{targetPrice.map(item => item.ClosingPrice)}</h3>
-      <h3> 月均價：{targetPrice.map(item => item.MonthlyAveragePrice)}</h3>
-      <h3> 本益比：{targetPE.map(item => item.PEratio)}</h3>
-      <h3> 殖利率：{targetPE.map(item => item.DividendYield)}</h3>
+    <TargetName>
+      <p> {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}</p>
+    </TargetName>
+    <TargetInfo>
+      <p> 股價{targetPrice.map(item => item.ClosingPrice)}</p>
+      <p> 月均價{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
+      <p> 本益比{targetPE.map(item => item.PEratio)}</p>
+      <p> 殖利率{targetPE.map(item => item.DividendYield)}</p>
+    </TargetInfo>
+    <Button onClick={handleAddFav}>加入追蹤</Button>
     </div>
+    </TargetHeader>
+    </TargetWrap>
+    </Page>
     </div>     
     )}
     </div>
