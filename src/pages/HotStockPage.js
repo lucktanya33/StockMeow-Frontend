@@ -184,32 +184,32 @@ function HotStockPage() {
     {searchFail && <h2>無效的查詢，請輸入正確代號或名稱</h2>}
     {!searchFail && (
     <TargetWrap>
-    <TargetHeader>
-    <div>
-    <TargetName>
-      <p> {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}</p>
-    </TargetName>
-    <TargetInfo>
-      <Info>
-      <p>股價</p>
-      <p>{targetPrice.map(item => item.ClosingPrice)}</p>
-      </Info>
-      <Info>
-      <p>月均價</p>
-      <p>{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
-      </Info>
-      <Info>
-      <p>本益比</p>
-      <p>{targetPE.map(item => item.PEratio)}</p>
-      </Info>
-      <Info>
-      <p>殖利率</p>
-      <p>{targetPE.map(item => item.DividendYield)}</p>
-      </Info>          
-    </TargetInfo>
-    <Button onClick={handleAddFav}>加入追蹤</Button>
-    </div>
-    </TargetHeader>
+      <TargetHeader>
+      <div>
+        <TargetName>
+          <p> {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}</p>
+        </TargetName>
+        <TargetInfo>
+          <Info>
+            <p>股價</p>
+            <p>{targetPrice.map(item => item.ClosingPrice)}</p>
+          </Info>
+          <Info>
+            <p>月均價</p>
+            <p>{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
+          </Info>
+          <Info>
+            <p>本益比</p>
+            <p>{targetPE.map(item => item.PEratio)}</p>
+          </Info>
+          <Info>
+            <p>殖利率</p>
+            <p>{targetPE.map(item => item.DividendYield)}</p>
+          </Info>
+        </TargetInfo>
+        <Button onClick={handleAddFav}>加入追蹤</Button>
+      </div>
+      </TargetHeader>
     </TargetWrap>
     )}
     </Page>
