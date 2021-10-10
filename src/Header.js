@@ -18,16 +18,19 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 `
-const Brand = styled(Link)`
-  font-size: 32px;
-  font-weight: bold;
-  color: black;
-  text-decoration: none;
-`
 
 const NavbarList = styled.div`
   display: flex;
   align-items: center;
+`
+
+const LeftContainer = styled.div`
+  display: flex;
+  align-items: center;
+
+  ${NavbarList} {
+    margin-left: 64px;
+  }
 `
 
 const Nav = styled(Link)`
@@ -40,6 +43,7 @@ const Nav = styled(Link)`
   cursor: pointer;
   color: black;
   text-decoration: none;
+  font-size: 20px;
 
   ${(props) => 
     props.$active && 
@@ -48,6 +52,20 @@ const Nav = styled(Link)`
     `}
 `
 
+const Brand = styled(Link)`
+  width: 120px; 
+  font-size: 30px;
+  font-weight: bold;
+  color: black;
+  text-decoration: none;
+`
+
+const LoginHint = styled.div`
+  height: 60px;
+  color: orange;
+  font-size: 14px;
+  box-sizing: border-box;
+`
 const LogOut = styled.div`
   padding: 10px;
   height: 64px;
@@ -64,15 +82,6 @@ const LogOut = styled.div`
     `
     background: rgba(0, 0, 0, 0.1);
     `}
-`
-
-const LeftContainer = styled.div`
-  display: flex;
-  align-items: center;
-
-  ${NavbarList} {
-    margin-left: 64px;
-  }
 `
 
 function Header() {
@@ -93,9 +102,12 @@ function Header() {
     <HeaderContainer>
     <LeftContainer>
     <Brand to="/">玩股喵</Brand>
+    <LoginHint>
+    <p>{user ? ('你好 '+ user.username) : "請登入"}</p>
+    </LoginHint>
     <NavbarList>    
-      <Nav to="/" $active={location.pathname === '/'}>討論區</Nav>
-      <Nav to="/stock-hot" $active={location.pathname === '/stock-hot'}>查股票</Nav>
+      <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
+      <Nav to="/stock-hot" $active={location.pathname === '/stock-hot'}>查詢</Nav>
     </NavbarList>
     </LeftContainer>
     <NavbarList>

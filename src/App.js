@@ -34,8 +34,6 @@ return (
   <Root>
     <Router>
       <Header />
-      <h3>登入狀態</h3>
-      {user && `${user.username}已登入`}
       <Switch>   
         <Route exact path="/">
           <HomePage />
