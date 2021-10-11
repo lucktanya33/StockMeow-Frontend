@@ -1,12 +1,9 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
-import { API_LOCAL } from '../../utils'
-import { AuthContext } from '../../context'
+import { API_LOCAL } from '../utils'
+import { AuthContext } from '../context'
 
 function LoginPage() {
-const [usernameReg, setUsernameReg] = useState([])
-const [passwordReg, setPasswordReg] = useState([])
-
 const [username, setUsername] = useState([])
 const [password, setPassword] = useState([])
 
@@ -15,14 +12,6 @@ const [errMessageLogin, setErrMessageLogin] = useState('')
 const { user, setUser } = useContext(AuthContext)
 
 Axios.defaults.withCredentials = true
-
-const handleRegister = () => {
-  Axios.post(`${API_LOCAL}/register`, {
-    username: usernameReg,
-    password: passwordReg
-  }).then((response) => {
-  })
-}
 
 const handleLogin = () => {
   Axios.post(`${API_LOCAL}/login`, {
@@ -57,26 +46,6 @@ useEffect(() => {
 
   return (
     <div className="App">
-      <div className="registration">
-        <h1>Registration</h1>
-        <div>
-          <label>Username</label>
-          <input 
-            type="text"
-            onChange={(e) => setUsernameReg(e.target.value)}
-            />
-        </div>
-        <div>  
-          <label>Password</label>
-          <input
-            type="text"
-            onChange={(e) => setPasswordReg(e.target.value)}
-          />
-        </div>
-        <div>
-          <button onClick={handleRegister}> Now Register </button> 
-        </div>
-      </div>
       <div className="login">
         <h1>Login</h1>
         <div>

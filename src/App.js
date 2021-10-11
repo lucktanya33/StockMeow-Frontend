@@ -6,7 +6,8 @@ import Header from "./Header";
 import HomePage from "./pages/HomePage";
 import HotStockPage from "./pages/HotStockPage";
 import ProfilePage from "./pages/ProfilePage";
-import LoginPage  from './pages/LoginPage/LoginPage';
+import RegisterPage  from './pages/RegisterPage';
+import LoginPage  from './pages/LoginPage';
 import './App.css';
 import { API_PRODUCTION } from "./utils";
 import { AuthContext } from "./context";
@@ -43,7 +44,10 @@ return (
         </Route>
         <Route exact path="/profile">
           <ProfilePage />
-        </Route>              
+        </Route>
+        <Route exact path="/register">
+          <RegisterPage />
+        </Route>                      
         <Route exact path="/login">
           <LoginPage />
         </Route>     
