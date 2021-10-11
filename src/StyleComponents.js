@@ -27,9 +27,8 @@ color: ${props => props.theme.colors.darkGrey};
 `
 
 export const ButtonSubmit = styled.button`
-cursor: pointer;
-width: 75%;
-margin: 40px 5px 20px 5px;
+width: 78%;
+margin: 40px 2px 20px 2px;
 height: 50px;
 border-radius: 8px;
 text-align: center;

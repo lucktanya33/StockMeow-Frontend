@@ -63,7 +63,7 @@ useEffect(() => {
             onChange={(e) => setPassword(e.target.value)} 
             onFocus={clearErrorHint}           
             />
-          <ButtonSubmit onClick={handleLogin}> 登入 </ButtonSubmit> 
+          <ButtonSubmit onClick={handleLogin}> 立刻登入 </ButtonSubmit> 
         <h1>{errMessageLogin}</h1>
         {user && <h1>登入狀態：{user.username}</h1>}
       </div>    

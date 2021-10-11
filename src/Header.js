@@ -53,11 +53,13 @@ const Nav = styled(Link)`
 `
 
 const Brand = styled(Link)`
-  width: 120px; 
+  width: 120px;
+  padding: 10px; 
   font-size: 26px;
   font-weight: bold;
-  color: black;
+  color: ${props => props.theme.colors.darkGrey};
   text-decoration: none;
+
 `
 
 const LoginHint = styled.div`
@@ -76,6 +78,7 @@ const LogOut = styled.div`
   cursor: pointer;
   color: black;
   text-decoration: none;
+  font-size: 16px;
 
   ${(props) => 
     props.$active && 
