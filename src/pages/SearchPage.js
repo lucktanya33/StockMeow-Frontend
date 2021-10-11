@@ -20,7 +20,6 @@ const Page = styled.div`
   width: 360px;
   margin: 0 auto;
   padding-top: 35px;
-  border: 1px solid blue;
   background-color: ${props => props.theme.colors.grey};
 `
 const SearchArea = styled.div`
@@ -30,20 +29,33 @@ const SearchInput = styled.input`
   width: 75%;
   height: 50px;
   margin: 0px 5px 0px 5px;
-  border-radius: 5px;
+  font-size: 20px;
+  border: 0px;
+  border-radius: 8px;
 `
 const SearchButton = styled.button`
   width: 15%;
   margin: 0px 5px 0px 5px;
   height: 50px;
   cursor: pointer;
+  color: white;
+  font-size: 20px;
+  font-weight: bolder;
+  border: none;
+  border-radius: 8px;
+  background-color: ${props => props.theme.colors.darkBlue};
+
+  : hover {
+    background-color: ${props => props.theme.colors.vividBlue};
+  }
 `
 const TargetWrap = styled.div`
   width: 100%;
-  margin-top: 10px; 
+  margin-top: 20px;
+  padding: 10px;
   border-radius: 8px;
-  border: 1px solid blue;
   background-color: white;
+  box-sizing: border-box;
 `
 const TargetHeader = styled.div`
   display: flex;
@@ -68,12 +80,14 @@ const Time = styled.span`
 const Button = styled.button`
   cursor: pointer;
   width: 30%;
-  margin: 0px 5px 0px 5px;
+  margin: 0px 5px 10px 5px;
   height: 35px;
-  border-radius: 5px;
+  border-radius: 8px;
   text-align: center;
   cursor: pointer;
   color: white;
+  font-weight: bolder;
+  border: none;
   background-color: ${props => props.theme.colors.darkBlue};
 `
 const TargetInfo = styled.div`
