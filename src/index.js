@@ -8,8 +8,9 @@ import { ThemeProvider } from "styled-components"
 const theme = {
   colors: {
     darkBlue: "#4F62C0",
+    vividBlue: "#ADEAF1",
     grey: "#F8F7FC",
-    vividBlue: "#ADEAF1"
+    darkGrey: "#383E5A"
   }
 }
 

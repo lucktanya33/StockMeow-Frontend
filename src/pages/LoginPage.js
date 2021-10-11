@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import { API_LOCAL } from '../utils'
 import { AuthContext } from '../context'
+import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
 
 function LoginPage() {
 const [username, setUsername] = useState([])
@@ -47,26 +48,22 @@ useEffect(() => {
   return (
     <div className="App">
       <div className="login">
-        <h1>Login</h1>
-        <div>
-          <label>Username</label>
-          <input
+      <TitlePage>登入</TitlePage>
+          <InputTitle>帳號</InputTitle>
+          <Input
             type="text"
+            placeholder="輸入你的帳號..."
             onChange={(e) => setUsername(e.target.value)}
             onFocus={clearErrorHint}          
             />
-        </div>
-        <div>  
-          <label>Password</label>
-          <input
+          <InputTitle>密碼</InputTitle>
+          <Input
             type="text"
+            placeholder="輸入你的密碼..."
             onChange={(e) => setPassword(e.target.value)} 
             onFocus={clearErrorHint}           
             />
-        </div>
-        <div>
-          <button onClick={handleLogin}> Now Login </button> 
-        </div>
+          <ButtonSubmit onClick={handleLogin}> 登入 </ButtonSubmit> 
         <h1>{errMessageLogin}</h1>
         {user && <h1>登入狀態：{user.username}</h1>}
       </div>    

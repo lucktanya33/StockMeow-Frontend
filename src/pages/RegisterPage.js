@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import { API_LOCAL } from '../utils'
 import { AuthContext } from '../context'
+import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
 
 function LoginPage() {
 const [usernameReg, setUsernameReg] = useState([])
@@ -32,24 +33,20 @@ useEffect(() => {
   return (
     <div className="App">
       <div className="registration">
-        <h1>Registration</h1>
-        <div>
-          <label>Username</label>
-          <input 
+        <TitlePage>註冊</TitlePage>
+          <InputTitle>帳號</InputTitle>
+          <Input
             type="text"
+            placeholder="輸入你的帳號..."
             onChange={(e) => setUsernameReg(e.target.value)}
             />
-        </div>
-        <div>  
-          <label>Password</label>
-          <input
+          <InputTitle>密碼</InputTitle>
+          <Input
             type="text"
+            placeholder="輸入你的密碼..."
             onChange={(e) => setPasswordReg(e.target.value)}
           />
-        </div>
-        <div>
-          <button onClick={handleRegister}> Now Register </button> 
-        </div>
+          <ButtonSubmit onClick={handleRegister}>立即註冊</ButtonSubmit> 
       </div>   
     </div>
   );
