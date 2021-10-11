@@ -39,7 +39,7 @@ const SearchButton = styled.button`
   height: 50px;
   cursor: pointer;
   color: white;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: bolder;
   border: none;
   border-radius: 8px;
