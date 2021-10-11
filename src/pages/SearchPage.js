@@ -34,12 +34,12 @@ const SearchInput = styled.input`
   border-radius: 8px;
 `
 const SearchButton = styled.button`
-  width: 15%;
+  width: 13%;
   margin: 0px 5px 0px 5px;
   height: 50px;
   cursor: pointer;
   color: white;
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bolder;
   border: none;
   border-radius: 8px;

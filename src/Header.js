@@ -48,13 +48,13 @@ const Nav = styled(Link)`
   ${(props) => 
     props.$active && 
     `
-    background: rgba(0, 0, 0, 0.1);
+    background: ${props => props.theme.colors.darkBlue};
     `}
 `
 
 const Brand = styled(Link)`
   width: 120px; 
-  font-size: 30px;
+  font-size: 26px;
   font-weight: bold;
   color: black;
   text-decoration: none;
@@ -80,7 +80,7 @@ const LogOut = styled.div`
   ${(props) => 
     props.$active && 
     `
-    background: rgba(0, 0, 0, 0.1);
+    background: ${props => props.theme.colors.darkBlue};
     `}
 `
 
