@@ -19,6 +19,7 @@ const Loading = styled.div`
 const Page = styled.div`
   width: 360px;
   margin: 0 auto;
+  padding-top: 35px;
   border: 1px solid blue;
 `
 const SearchArea = styled.div`
@@ -38,6 +39,8 @@ const SearchButton = styled.button`
 `
 const TargetWrap = styled.div`
   width: 100%;
+  margin-top: 10px; 
+  border-radius: 8px;
   border: 1px solid blue;
 `
 const TargetHeader = styled.div`
@@ -66,6 +69,7 @@ const Button = styled.button`
   margin: 0px 5px 0px 5px;
   height: 35px;
   background-color : pink;
+  border-radius: 5px;
   text-align: center;
   cursor: pointer;
 `
@@ -185,7 +189,6 @@ function HotStockPage() {
     {!LoadingPage && (
     <div> 
     <Page>
-    <h3>查詢你想了解的上市股票</h3>
     <SearchArea>
     <form onSubmit={handleSearch}>
       <SearchInput
