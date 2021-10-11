@@ -28,14 +28,14 @@ const SearchArea = styled.div`
 const SearchInput = styled.input`
   width: 75%;
   height: 50px;
-  margin: 0px 5px 0px 5px;
+  margin: 0px 3px 0px 3px;
   font-size: 20px;
   border: 0px;
   border-radius: 8px;
 `
 const SearchButton = styled.button`
   width: 13%;
-  margin: 0px 5px 0px 5px;
+  margin: 0px 3px 0px 3px;
   height: 50px;
   cursor: pointer;
   color: white;
