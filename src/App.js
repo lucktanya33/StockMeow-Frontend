@@ -11,10 +11,17 @@ import LoginPage  from './pages/LoginPage';
 import './App.css';
 import { API_PRODUCTION } from "./utils";
 import { AuthContext } from "./context";
+import { createGlobalStyle } from 'styled-components'
 
 // styles
 const Root = styled.div`
   padding-top: 64px;
+`
+// 設定html body 底色
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${props => props.theme.colors.grey};
+  }
 `
 
 function App() {
@@ -32,6 +39,7 @@ useEffect(() => {
 }, [])
 return (
   <AuthContext.Provider value={{user, setUser}}>
+  <GlobalStyle />
   <Root>
     <Router>
       <Header />
