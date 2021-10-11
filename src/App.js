@@ -4,7 +4,7 @@ import Axios from "axios";
 import styled from "styled-components";
 import Header from "./Header";
 import HomePage from "./pages/HomePage";
-import HotStockPage from "./pages/HotStockPage";
+import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegisterPage  from './pages/RegisterPage';
 import LoginPage  from './pages/LoginPage';
@@ -40,7 +40,7 @@ return (
           <HomePage />
         </Route>
         <Route exact path="/stock-hot">
-          <HotStockPage />
+          <SearchPage />
         </Route>
         <Route exact path="/profile">
           <ProfilePage />
