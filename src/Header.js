@@ -43,7 +43,7 @@ const Nav = styled(Link)`
   cursor: pointer;
   color: black;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 16px;
 
   ${(props) => 
     props.$active && 

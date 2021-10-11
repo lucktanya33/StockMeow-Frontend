@@ -36,10 +36,9 @@ const SearchInput = styled.input`
 const SearchButton = styled.button`
   width: 13%;
   margin: 0px 3px 0px 3px;
-  height: 50px;
+  height: 40px;
   cursor: pointer;
   color: white;
-  font-size: 12px;
   font-weight: bolder;
   border: none;
   border-radius: 8px;
