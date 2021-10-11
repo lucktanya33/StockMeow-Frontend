@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
-import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from './../utils'
+import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
 
 const Loading = styled.div`
   position: fixed;
@@ -21,6 +21,7 @@ const Page = styled.div`
   margin: 0 auto;
   padding-top: 35px;
   border: 1px solid blue;
+  background-color: ${props => props.theme.colors.grey};
 `
 const SearchArea = styled.div`
   width: 100%;
@@ -42,6 +43,7 @@ const TargetWrap = styled.div`
   margin-top: 10px; 
   border-radius: 8px;
   border: 1px solid blue;
+  background-color: white;
 `
 const TargetHeader = styled.div`
   display: flex;
@@ -68,10 +70,11 @@ const Button = styled.button`
   width: 30%;
   margin: 0px 5px 0px 5px;
   height: 35px;
-  background-color : pink;
   border-radius: 5px;
   text-align: center;
   cursor: pointer;
+  color: white;
+  background-color: ${props => props.theme.colors.darkBlue};
 `
 const TargetInfo = styled.div`
   padding: 0px 5px 0px 5px;
