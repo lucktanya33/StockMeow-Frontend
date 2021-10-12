@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
+import { ButtonSmall } from '../StyleComponents'
 
 const Loading = styled.div`
   position: fixed;
@@ -241,7 +242,7 @@ function HotStockPage() {
             <p>{targetPE.map(item => item.DividendYield)}</p>
           </Info>
         </TargetInfo>
-        <Button onClick={handleAddFav}>加入追蹤</Button>
+        <ButtonSmall onClick={handleAddFav}>加入追蹤</ButtonSmall>
     </TargetWrap>
     )}
     </Page>

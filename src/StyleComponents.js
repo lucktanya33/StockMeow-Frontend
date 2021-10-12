@@ -44,3 +44,16 @@ background-color: ${props => props.theme.colors.darkBlue};
   background-color: white;
 }
 `
+export const ButtonSmall = styled.button`
+cursor: pointer;
+width: 30%;
+margin: 0px 5px 10px 5px;
+height: 35px;
+border-radius: 8px;
+text-align: center;
+cursor: pointer;
+color: white;
+font-weight: bolder;
+border: none;
+background-color: ${props => props.theme.colors.darkBlue};
+`
