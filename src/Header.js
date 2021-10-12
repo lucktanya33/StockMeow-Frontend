@@ -16,6 +16,7 @@ const HeaderContainer = styled.div`
   left: 0;
   right: 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  background-color:${props => props.theme.colors.grey};
   box-sizing: border-box;
 `
 const NavbarList = styled.div`

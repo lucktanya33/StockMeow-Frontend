@@ -93,12 +93,20 @@ function HotStockPage() {
   const [stockInfoPrice, setStockInfoPrice] = useState([])
   // 確認載入資料
   const [isInfoLoaded, setIsInfoLoaded] = useState(false)
-  // 輸入查詢
+  // 查詢-輸入中
   const [stockSearching, setStockSearching] = useState(null)
-  // 查詢後結果
-  const [targetPrice, setTargetPrice] = useState([])
+  // 查詢-結果
+  const [targetPrice, setTargetPrice] = useState([{
+    Code: "代號",
+    Name: "股票名稱",
+    ClosingPrice: '',
+    MonthlyAveragePrice: ''
+    }
+  ])
   const [targetPE, setTargetPE] = useState([])
+  // 查詢-錯誤提醒
   const [searchFail, setSearchFail] = useState(false)
+  const [searchDelay, setSearchDelay] = useState(false)
 
   // 設定時間
   const today = new Date()
@@ -110,18 +118,10 @@ function HotStockPage() {
   useEffect(() => {
     setStockInfo()
     const timer = setTimeout(() => {
-      setLoadingPage(false)//六秒後拿掉loading畫面
-    }, 1000);
+      setLoadingPage(false)//拿掉loading畫面
+    }, 4000);
     return () => clearTimeout(timer);
   }, [])
-
-  // useEffect 資料載入完顯示預設股票
-  useEffect(() => {
-    setStockSearching(2330)
-    if (isInfoLoaded) {
-      handleSearch()
-    }
-  },[isInfoLoaded])
 
   const setStockInfo = () => {
     // 拿資料-價格
@@ -149,6 +149,12 @@ function HotStockPage() {
   }
 
   const handleSearch = () => {
+    // 資料未載入完
+    if (!isInfoLoaded) {
+      setSearchDelay(true)
+      setStockSearching(null)
+      return
+    }
     // 清空
     setSearchFail(false)
     setTargetPrice([])
@@ -177,6 +183,11 @@ function HotStockPage() {
       }
   }
 
+  const clearSearchError = () => {
+    setSearchFail(false)
+    setSearchDelay(false)
+  }
+
   const handleAddFav = () => {
     console.log(targetPrice[0].Code);
     Axios.post(`${API_LOCAL}/my-fav`, {
@@ -198,11 +209,13 @@ function HotStockPage() {
       <SearchInput
       placeholder="輸入上市股票名稱/代號"
       onChange={(e) => setStockSearching(e.target.value)}
+      onFocus={clearSearchError}
       />
       <SearchButton>查詢</SearchButton>
     </form>
     </SearchArea>
     {searchFail && <h2>無效的查詢，請輸入正確代號或名稱</h2>}
+    {searchDelay && <h2>資料庫有點延遲，再查詢一次！</h2>}
     {!searchFail && (
     <TargetWrap>
       <TargetHeader>
