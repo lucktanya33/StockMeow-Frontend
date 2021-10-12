@@ -77,19 +77,6 @@ const Time = styled.span`
   width: 40%;
   font-size: 14px;
 `
-const Button = styled.button`
-  cursor: pointer;
-  width: 30%;
-  margin: 0px 5px 10px 5px;
-  height: 35px;
-  border-radius: 8px;
-  text-align: center;
-  cursor: pointer;
-  color: white;
-  font-weight: bolder;
-  border: none;
-  background-color: ${props => props.theme.colors.darkBlue};
-`
 const TargetInfo = styled.div`
   padding: 0px 5px 0px 5px;
   display: flex;

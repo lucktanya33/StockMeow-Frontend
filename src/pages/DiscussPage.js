@@ -56,11 +56,11 @@ const MessageHead = styled.div`
 const MessageAuthor = styled.div`
   color: black;
 `
-const MessageId = styled.div`
-  color: black;
+const MessageTime = styled.div`
+  font-size: 12px;
 `
-const MessageTime = styled.div``
 const MessageTitle = styled.div`
+  width: 55%;
   font-weight: bold;
   font-size: 20px;
 `
@@ -82,11 +82,12 @@ function Message({ id, author, time, title, content }) {
   return(
     <MessageContainer>
       <MessageHead>
-        <MessageId>{id}</MessageId>
+        <MessageTitle>{title}</MessageTitle>
+        <div>
         <MessageAuthor>{author}</MessageAuthor>
         <MessageTime>{time}</MessageTime>
+        </div>
       </MessageHead>
-      <MessageTitle>{title}</MessageTitle>
       <MessageBody>{content}</MessageBody>
     </MessageContainer>
   )

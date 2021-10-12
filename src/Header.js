@@ -18,12 +18,10 @@ const HeaderContainer = styled.div`
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   box-sizing: border-box;
 `
-
 const NavbarList = styled.div`
   display: flex;
   align-items: center;
 `
-
 const LeftContainer = styled.div`
   display: flex;
   align-items: center;
@@ -32,7 +30,6 @@ const LeftContainer = styled.div`
     margin-left: 64px;
   }
 `
-
 const Nav = styled(Link)`
   padding: 10px;
   height: 64px;
@@ -61,11 +58,13 @@ const Brand = styled(Link)`
   text-decoration: none;
 
 `
-
 const LoginHint = styled.div`
-  height: 60px;
-  color: orange;
+  width: 24%;
+  padding: 5px; 
+  height: 40px;
+  color: ${props => props.theme.colors.darkBlue};
   font-size: 14px;
+  font-weight: bolder;
   box-sizing: border-box;
 `
 const LogOut = styled.div`
@@ -106,7 +105,7 @@ function Header() {
     <LeftContainer>
     <Brand to="/">玩股喵</Brand>
     <LoginHint>
-    <p>{user ? ('你好 '+ user.username) : "請登入"}</p>
+    {user ? ('你好 '+ user.username) : "請登入"}
     </LoginHint>
     <NavbarList>    
       <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
