@@ -10,9 +10,6 @@ const Page = styled.div`
   width: 360px;
   margin: 0 auto;
 `
-const Title = styled.h2`
-  color: #333;
-`
 const MessageForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -22,18 +19,16 @@ const MessageForm = styled.form`
   border-radius: 8px;
   background-color: white;
 `
-
 const TitleInput = styled.textarea`
-  width: 90%;
+  width: 80%;
   margin-top: 20px;
   margin-bottom: 10px;
   border-radius: 8px;
   border: 1px solid ${props => props.theme.colors.darkGrey};
   background-color: ${props => props.theme.colors.grey};
-
 `
 const BodyInput = styled.textarea`
-  width: 90%;
+  width: 80%;
   margin-top: 10px;
   margin-bottom: 20px;
   border-radius: 8px;
@@ -61,7 +56,6 @@ const MessageHead = styled.div`
 const MessageAuthor = styled.div`
   color: black;
 `
-
 const MessageId = styled.div`
   color: black;
 `
@@ -84,8 +78,7 @@ const Loading = styled.div`
   align-items: center;
   justify-content: center;
 `
-
-function Message({ id, author, time, title, content, deleteTest }) {
+function Message({ id, author, time, title, content }) {
   return(
     <MessageContainer>
       <MessageHead>
@@ -98,11 +91,9 @@ function Message({ id, author, time, title, content, deleteTest }) {
     </MessageContainer>
   )
 }
-
 const ErrorMessage = styled.div`
   color: red;
 `
-
 function HomePage() {
   // States
   const [messageApiError, setMessageApiError] = useState(null)
@@ -156,7 +147,7 @@ function HomePage() {
       <TitlePage>發表你對股市的看法</TitlePage>
       <MessageForm onSubmit={handleFormSubmit2}>
         <TitleInput
-        rows={2}
+        rows={3}
         placeholder={"輸入標題..."}
         onChange={(e) => {setInputTitle(e.target.value)}}
         onFocus={handleTextareaFocus}        

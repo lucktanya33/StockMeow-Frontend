@@ -3,7 +3,7 @@ import { HashRouter as Router, Switch, Route, useParams } from "react-router-dom
 import Axios from "axios";
 import styled from "styled-components";
 import Header from "./Header";
-import HomePage from "./pages/HomePage";
+import DiscussPage from "./pages/DiscussPage";
 import SearchPage from "./pages/SearchPage";
 import ProfilePage from "./pages/ProfilePage";
 import RegisterPage  from './pages/RegisterPage';
@@ -45,9 +45,9 @@ return (
       <Header />
       <Switch>   
         <Route exact path="/">
-          <HomePage />
+          <DiscussPage />
         </Route>
-        <Route exact path="/stock-hot">
+        <Route exact path="/search">
           <SearchPage />
         </Route>
         <Route exact path="/profile">
