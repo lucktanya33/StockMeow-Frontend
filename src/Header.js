@@ -109,7 +109,7 @@ function Header() {
     </LoginHint>
     <NavbarList>    
       <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
-      <Nav to="/stock-hot" $active={location.pathname === '/stock-hot'}>查詢</Nav>
+      <Nav to="/search" $active={location.pathname === '/search'}>查詢</Nav>
     </NavbarList>
     </LeftContainer>
     <NavbarList>
