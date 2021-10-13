@@ -84,6 +84,10 @@ const TargetInfo = styled.div`
 `
 const Info = styled.div`
 `
+const ButtonCompare = styled(ButtonSmall)`
+  color: ${props => props.theme.colors.darkBlue};
+  background-color: ${props => props.theme.colors.vividBlue}
+`
 function HotStockPage() {
   // states
   // 載入頁面
@@ -104,9 +108,10 @@ function HotStockPage() {
     }
   ])
   const [targetPE, setTargetPE] = useState([])
-  // 查詢-錯誤提醒
+  // 錯誤提醒
   const [searchFail, setSearchFail] = useState(false)
   const [searchDelay, setSearchDelay] = useState(false)
+  const [errorCompare, setErrorCompare] = useState(false)
   // 比較
   const [comparedTarget, setComparedTarget] = useState([{
     id: 0,
@@ -197,6 +202,20 @@ function HotStockPage() {
   }
 
   const handleCompare = () => {
+    setErrorCompare(false)
+    // 錯誤-無查詢資料加入比較
+    if(targetPrice[0].Code == "代號") {
+      setErrorCompare(true)
+      return
+    }
+    // 預防-重複加入比較
+    const repeat = comparedTarget.filter(item => item.name == targetPrice[0].Name)
+    if(repeat.length > 0) {
+      console.log(repeat);
+      console.log(comparedTarget);
+      return
+    }
+    // 加入比較
     setComparedTarget([
       {
         id: id.current,
@@ -262,11 +281,15 @@ function HotStockPage() {
             <p>{targetPE.map(item => item.DividendYield)}</p>
           </Info>
         </TargetInfo>
+        {isInfoLoaded && (
         <ButtonSmall onClick={handleAddFav}>加入追蹤</ButtonSmall>
-        <ButtonSmall onClick={handleCompare}>加入比較</ButtonSmall>
+        )}
+        {isInfoLoaded && (
+        <ButtonCompare onClick={handleCompare}>加入比較</ButtonCompare>
+        )}
     </TargetWrap>
     )}
-
+    {errorCompare && <h2>查詢股票後再加入比較！</h2>}
     {comparedTarget.filter(item => item.id > 0).map(item =>
       <TargetWrap>
         <TargetHeader>
