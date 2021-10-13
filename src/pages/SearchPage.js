@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
@@ -107,12 +107,21 @@ function HotStockPage() {
   // 查詢-錯誤提醒
   const [searchFail, setSearchFail] = useState(false)
   const [searchDelay, setSearchDelay] = useState(false)
+  // 比較
+  const [comparedTarget, setComparedTarget] = useState([{
+    id: 0,
+    name: null,
+    price: null
+  }])
 
   // 設定時間
   const today = new Date()
   const countYesterday = today - 1000*60*60*24
   const yesterday = new Date(countYesterday)
   const latestTime = yesterday.toLocaleDateString()
+
+   //設定id
+   const id = useRef(1)
 
   // useEffect (每次render先串API拿資料存到states)
   useEffect(() => {
@@ -152,7 +161,6 @@ function HotStockPage() {
     // 資料未載入完
     if (!isInfoLoaded) {
       setSearchDelay(true)
-      setStockSearching(null)
       return
     }
     // 清空
@@ -160,32 +168,44 @@ function HotStockPage() {
     setTargetPrice([])
     setTargetPE([])
     // searching
-      const targetPriceByName = stockInfoPrice.filter(stockItem => stockItem.Name == stockSearching)
-      const targetPriceByCode = stockInfoPrice.filter(stockItem => stockItem.Code == stockSearching)
-      const targetPEByCode = stockInfoPE.filter(stockItem => stockItem.Code == stockSearching)
-      const targetPEByName = stockInfoPE.filter(stockItem => stockItem.Name == stockSearching)
-      // 查詢邏輯
-      const validSearching = (targetPriceByCode.length !== 0 || targetPriceByName.length !== 0)
-      if (validSearching) {
-        // 查詢目標資訊
-        if ( targetPriceByCode.length !== 0) {
-          setTargetPrice(targetPriceByCode)
-          setTargetPE(targetPEByCode)
-        }
-        if ( targetPriceByName.length !== 0) {
-          setTargetPrice(targetPriceByName)
-          setTargetPE(targetPEByName)
-        }
-      } else {
-        setSearchFail(true)
-        setTargetPrice([])
-        setTargetPE([])
+    const targetPriceByName = stockInfoPrice.filter(stockItem => stockItem.Name == stockSearching)
+    const targetPriceByCode = stockInfoPrice.filter(stockItem => stockItem.Code == stockSearching)
+    const targetPEByCode = stockInfoPE.filter(stockItem => stockItem.Code == stockSearching)
+    const targetPEByName = stockInfoPE.filter(stockItem => stockItem.Name == stockSearching)
+    // 查詢邏輯
+    const validSearching = (targetPriceByCode.length !== 0 || targetPriceByName.length !== 0)
+    if (validSearching) {
+      // 查詢目標資訊
+      if ( targetPriceByCode.length !== 0) {
+        setTargetPrice(targetPriceByCode)
+        setTargetPE(targetPEByCode)
       }
+      if ( targetPriceByName.length !== 0) {
+        setTargetPrice(targetPriceByName)
+        setTargetPE(targetPEByName)
+      }
+    } else {
+      setSearchFail(true)
+      setTargetPrice([])
+      setTargetPE([])
+    }
   }
 
   const clearSearchError = () => {
     setSearchFail(false)
     setSearchDelay(false)
+  }
+
+  const handleCompare = () => {
+    setComparedTarget([
+      {
+        id: id.current,
+        name: targetPrice[0].Name,
+        price: targetPrice[0].ClosingPrice
+
+      }, ...comparedTarget
+    ])
+    id.current++
   }
 
   const handleAddFav = () => {
@@ -243,7 +263,18 @@ function HotStockPage() {
           </Info>
         </TargetInfo>
         <ButtonSmall onClick={handleAddFav}>加入追蹤</ButtonSmall>
+        <ButtonSmall onClick={handleCompare}>加入比較</ButtonSmall>
     </TargetWrap>
+    )}
+
+    {comparedTarget.filter(item => item.id > 0).map(item =>
+      <TargetWrap>
+        <TargetHeader>
+          <TargetName>
+          {item.name} {item.price}
+          </TargetName>
+        </TargetHeader>
+      </TargetWrap>
     )}
     </Page>
     </div>    
