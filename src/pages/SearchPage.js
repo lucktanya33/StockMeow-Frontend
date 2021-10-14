@@ -141,23 +141,26 @@ function HotStockPage() {
     // 拿資料-價格
     fetch(API_HEROKU_PRICE)// `${API_STOCK_REMOTE}/price.php`
     .then(response =>{
-       return  response.json()
+      return  response.json()
     })
     .then( data =>{
-      const dataPrice = data.stock_try
-      const price = dataPrice.filter(item => item.Code < 10000)//拿出權證以外的資料
-      setStockInfoPrice(price)
-      if (price.length > 1000) {
-        setIsInfoLoaded(true)
-      }
+      const dataPrice = data.stock_new
+      console.log(dataPrice)
+      const toArray = Object.values(dataPrice)
+      console.log(toArray)
+      // const price = dataPrice.filter(item => item.Code < 10000)//拿出權證以外的資料
+      setStockInfoPrice(toArray)
+      setIsInfoLoaded(true)
     })
     // 拿資料-本益比
     fetch(API_HEROKU_PE)
     .then(response => {
       return response.json()
+      
     })
     .then(data => {
       const PE = data.stock_pe
+      console.log(PE);
       setStockInfoPE(PE)
     })
   }
