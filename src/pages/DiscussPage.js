@@ -78,6 +78,16 @@ const Loading = styled.div`
   align-items: center;
   justify-content: center;
 `
+
+const Wrap = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: ${props => props.theme.colors.vividBlue};
+  border: 1px solid white;
+  box-sizing: border-box;
+`
 function Message({ id, author, time, title, content }) {
   return(
     <MessageContainer>
@@ -92,19 +102,23 @@ function Message({ id, author, time, title, content }) {
     </MessageContainer>
   )
 }
-const ErrorMessage = styled.div`
-  color: red;
-`
+
 function HomePage() {
   // States
-  const [messageApiError, setMessageApiError] = useState(null)
-  const [postMessageError, setPostMessageError] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   // states2 
   const [messages, setMessages] = useState([])
   const [inputTitle, setInputTitle] = useState('')
   const [inputBody, setInputBody] = useState('')
+
+  // States-error
+  const [error, setError] = useState([
+    {status: 0,
+    type: '',
+    message: ''
+    }
+  ])
   
   // contexts
   const { user, setUser } = useContext(AuthContext)
@@ -120,11 +134,33 @@ function HomePage() {
       setMessages(response.data)
     })
     .catch((err) => {
-      setMessageApiError(err.message)
+      setError({
+        status: 1,
+        type: 'getRequest',
+        message: `載入留言資料似乎有點狀況：${err.message}`
+      })
     })
   }
 
-  const handleFormSubmit2 = () => {
+  const handleFormSubmit = () => {
+    // 未登入
+    if (!user) {
+      setError({
+        status: 1,
+        type: 'notUser',
+        message: '你還沒登入!'
+      })
+      return
+    }
+    // 空值
+    if (inputBody === '' || inputTitle === '') {
+      setError({
+        status: 1,
+        type: 'empty',
+        message: '請輸入要發表的內容！'
+      })      
+      return
+    }
     setIsSubmitting(true)
     Axios.post(`${API_PRODUCTION}/create-post`, {inputTitle, inputBody})
     .then((response) => {
@@ -134,19 +170,23 @@ function HomePage() {
     })
     .catch(err => {
       setIsSubmitting(false)
-      setPostMessageError(err.message)
+      setError({
+        status: 1,
+        type: 'postRequest',
+        message: `送出留言有點狀況：${err.message}`
+      }) 
     })
   }
 
-  const handleTextareaFocus = () => {// onFocus游標移過去textarea框框時要做的事
-    setPostMessageError(null)
+  const handleTextareaFocus = () => {
+    setError([])
   }
 
   return (
     <Page>
       {isSubmitting && <Loading>正在送出...</Loading>}
       <TitlePage>發表你對股市的看法</TitlePage>
-      <MessageForm onSubmit={handleFormSubmit2}>
+      <MessageForm onSubmit={handleFormSubmit}>
         <TitleInput
         rows={3}
         placeholder={"輸入標題..."}
@@ -160,12 +200,10 @@ function HomePage() {
         onFocus={handleTextareaFocus}
         />
         <ButtonSmall>送出留言</ButtonSmall>
-        {postMessageError && <ErrorMessage>{postMessageError}</ErrorMessage>}
       </MessageForm>
-      {messageApiError && (
-      <ErrorMessage>
-        Something went wrong: {messageApiError.toString()}
-      </ErrorMessage>)}
+      {error.status == 1 && (
+        <Wrap>{error.message}</Wrap>
+      )}
       <MessageList>
         {messages.map(message => (
           <Message
