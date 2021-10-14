@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
+import { PriceContext, PEContext } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
 
@@ -92,9 +93,6 @@ function HotStockPage() {
   // states
   // 載入頁面
   const [LoadingPage, setLoadingPage] = useState(true)
-  // API拿到的資料
-  const [stockInfoPE, setStockInfoPE] = useState([])
-  const [stockInfoPrice, setStockInfoPrice] = useState([])
   // 確認載入資料
   const [isInfoLoaded, setIsInfoLoaded] = useState(false)
   // 查詢-輸入中
@@ -119,6 +117,10 @@ function HotStockPage() {
     price: null
   }])
 
+  // Context
+  const { stockInfoPrice, setStockInfoPrice } = useContext(PriceContext)
+  const { stockInfoPE, setStockInfoPE } = useContext(PEContext)
+ 
   // 設定時間
   const today = new Date()
   const countYesterday = today - 1000*60*60*24
@@ -130,40 +132,14 @@ function HotStockPage() {
 
   // useEffect (每次render先串API拿資料存到states)
   useEffect(() => {
-    setStockInfo()
+    if (stockInfoPrice) {
+      setIsInfoLoaded(true)
+    }
     const timer = setTimeout(() => {
       setLoadingPage(false)//拿掉loading畫面
     }, 4000);
     return () => clearTimeout(timer);
   }, [])
-
-  const setStockInfo = () => {
-    // 拿資料-價格
-    fetch(API_HEROKU_PRICE)// `${API_STOCK_REMOTE}/price.php`
-    .then(response =>{
-      return  response.json()
-    })
-    .then( data =>{
-      const dataPrice = data.stock_new
-      console.log(dataPrice)
-      const toArray = Object.values(dataPrice)
-      console.log(toArray)
-      // const price = dataPrice.filter(item => item.Code < 10000)//拿出權證以外的資料
-      setStockInfoPrice(toArray)
-      setIsInfoLoaded(true)
-    })
-    // 拿資料-本益比
-    fetch(API_HEROKU_PE)
-    .then(response => {
-      return response.json()
-      
-    })
-    .then(data => {
-      const PE = data.stock_pe
-      console.log(PE);
-      setStockInfoPE(PE)
-    })
-  }
 
   const handleSearch = () => {
     // 資料未載入完
