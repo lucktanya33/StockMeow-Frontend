@@ -30,31 +30,53 @@ Axios.defaults.withCredentials = true
 
 // states
 const [user, setUser] = useState(null)
-const [stockInfoPE, setStockInfoPE] = useState([])
 const [stockInfoPrice, setStockInfoPrice] = useState([])
+const [stockInfoPE, setStockInfoPE] = useState([])
 const [myFav, setMyFav] =useState([])
+
+const [loaded, setLoaded] = useState(false)
+
+const [infoCompleted, setInfoCompleted ] = useState([])
 
 // useEffect
 useEffect(() => {
-  // 拿到登入狀態
-  Axios.get(`${API_PRODUCTION}/login`)
-  .then((response) => {
-    if(response.data.user) {
-      setUser(response.data.user[0])
-    }
-  
-  // 拿資料-價格
+    // 拿到登入狀態
+    Axios.get(`${API_PRODUCTION}/login`)
+    .then(
+      (response) => {
+        if(response.data.user) {
+          setUser(response.data.user[0])
+      }
+    })
+    // 拿資料
+    getInfo()
+}, [])
+
+// 確認載入完全
+useEffect(() => {
+  if(stockInfoPrice.length > 1000) {
+    console.log(1);
+    setLoaded(true)
+  }
+}, [stockInfoPrice])
+
+// 整理資料
+useEffect(() => {
+  if(loaded) {
+    organizeInfo()
+  }
+}, [loaded])
+
+const getInfo = () => {
+  // 拿價格
   fetch(API_HEROKU_PRICE)// `${API_STOCK_REMOTE}/price.php`
   .then(response =>{
     return  response.json()
   })
   .then( data =>{
     const dataPrice = data.stock_new
-    console.log(dataPrice)
     const toArray = Object.values(dataPrice)
-    console.log(toArray)
     setStockInfoPrice(toArray)
-  })
   })
   // 拿資料-本益比
   fetch(API_HEROKU_PE)
@@ -66,7 +88,30 @@ useEffect(() => {
     const PE = data.stock_pe
     setStockInfoPE(PE)
   })
-}, [])
+}
+
+const organizeInfo = () => {
+    const infoAddKey = stockInfoPrice.map(item => ({'PE':'', ...item}))
+    for (let i = 0; i < infoAddKey.length; i ++) {
+      for (let x = 0; x < stockInfoPE.length; x ++) {
+        if (infoAddKey[i].Code == stockInfoPE[x].Code) {
+          infoAddKey[i].PE = stockInfoPE[x].PEratio
+        }
+      }
+    }
+    console.log('result', infoAddKey)
+}
+
+/*const checkLoaded = () => {
+  if(stockInfoPrice.length > 1000) {
+    console.log(1);
+    setLoaded(true)
+    return
+  } else {
+    console.log(2)
+    setTimeout(checkLoaded, 1000);
+  }  
+}*/
 
 return (
   <PriceContext.Provider value={{stockInfoPrice, setStockInfoPrice}}>
