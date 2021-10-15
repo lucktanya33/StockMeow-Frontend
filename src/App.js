@@ -10,7 +10,7 @@ import RegisterPage  from './pages/RegisterPage';
 import LoginPage  from './pages/LoginPage';
 import './App.css';
 import { API_PRODUCTION, API_HEROKU_PRICE, API_HEROKU_PE } from "./utils";
-import { AuthContext, PriceContext, PEContext } from "./context";
+import { AuthContext, PriceContext, PEContext, FavContext } from "./context";
 import { createGlobalStyle } from 'styled-components'
 
 // styles
@@ -32,6 +32,7 @@ Axios.defaults.withCredentials = true
 const [user, setUser] = useState(null)
 const [stockInfoPE, setStockInfoPE] = useState([])
 const [stockInfoPrice, setStockInfoPrice] = useState([])
+const [myFav, setMyFav] =useState([])
 
 // useEffect
 useEffect(() => {
@@ -71,6 +72,7 @@ return (
   <PriceContext.Provider value={{stockInfoPrice, setStockInfoPrice}}>
   <PEContext.Provider value={{stockInfoPE, setStockInfoPE}}>
   <AuthContext.Provider value={{user, setUser}}>
+  <FavContext.Provider value={{myFav, setMyFav}}>
   <GlobalStyle />
   <Root>
     <Router>
@@ -94,6 +96,7 @@ return (
       </Switch>
     </Router>
   </Root>
+  </FavContext.Provider>
   </AuthContext.Provider>
   </PEContext.Provider>
   </PriceContext.Provider>

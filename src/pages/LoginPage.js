@@ -1,20 +1,25 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import { API_LOCAL } from '../utils'
-import { AuthContext } from '../context'
+import { AuthContext, FavContext } from '../context'
 import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
 
 function LoginPage() {
+// setting
+Axios.defaults.withCredentials = true
+
+// states
 const [username, setUsername] = useState([])
 const [password, setPassword] = useState([])
 
 const [errMessageLogin, setErrMessageLogin] = useState('')
 
 const { user, setUser } = useContext(AuthContext)
+const { myFav, setMyFav } = useContext(FavContext)
 
-Axios.defaults.withCredentials = true
 
 const handleLogin = () => {
+  // 登入
   Axios.post(`${API_LOCAL}/login`, {
     username: username,
     password: password
@@ -26,8 +31,19 @@ const handleLogin = () => {
     } else {
       console.log(response);
       setUser(response.data[0])
+      getFav()
     }
   })
+}
+
+const getFav = () => {
+  Axios.get(`${API_LOCAL}/my-fav`).then(
+    (response) => {
+      const dataArray = response.data
+      const favStockData = dataArray.map(item => item.stock_code)
+      console.log(favStockData);
+      setMyFav(favStockData)
+    })  
 }
 
 const clearErrorHint = () => {
