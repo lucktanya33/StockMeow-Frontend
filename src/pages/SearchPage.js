@@ -142,40 +142,7 @@ function HotStockPage() {
     return () => clearTimeout(timer);
   }, [])
 
-  /*const handleSearch = () => {
-    // 資料未載入完
-    if (!isInfoLoaded) {
-      setSearchDelay(true)
-      return
-    }
-    // 清空
-    setSearchFail(false)
-    setTargetPrice([])
-    setTargetPE([])
-    // searching
-    const targetPriceByName = stockInfoPrice.filter(stockItem => stockItem.Name == stockSearching)
-    const targetPriceByCode = stockInfoPrice.filter(stockItem => stockItem.Code == stockSearching)
-    const targetPEByCode = stockInfoPE.filter(stockItem => stockItem.Code == stockSearching)
-    const targetPEByName = stockInfoPE.filter(stockItem => stockItem.Name == stockSearching)
-    // 查詢邏輯
-    const validSearching = (targetPriceByCode.length !== 0 || targetPriceByName.length !== 0)
-    if (validSearching) {
-      // 查詢目標資訊
-      if ( targetPriceByCode.length !== 0) {
-        setTargetPrice(targetPriceByCode)
-        setTargetPE(targetPEByCode)
-      }
-      if ( targetPriceByName.length !== 0) {
-        setTargetPrice(targetPriceByName)
-        setTargetPE(targetPEByName)
-      }
-    } else {
-      setSearchFail(true)
-      setTargetPrice([])
-      setTargetPE([])
-    }
-  }*/
-  const handleSearch2 = () => {
+  const handleSearch = () => {
     // 資料未載入完
     if (!infoCompleted) {
       setSearchDelay(true)
@@ -254,7 +221,7 @@ function HotStockPage() {
     <div> 
     <Page>
     <SearchArea>
-    <form onSubmit={handleSearch2}>
+    <form onSubmit={handleSearch}>
       <SearchInput
       placeholder="輸入上市股票名稱/代號"
       onChange={(e) => setStockSearching(e.target.value)}
