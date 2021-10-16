@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
-import { API_LOCAL } from '../utils'
+import { API_LOCAL, API_PRODUCTION } from '../utils'
 import { AuthContext, FavContext } from '../context'
 import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
 
@@ -20,7 +20,7 @@ const { myFav, setMyFav } = useContext(FavContext)
 
 const handleLogin = () => {
   // 登入
-  Axios.post(`${API_LOCAL}/login`, {
+  Axios.post(`${API_PRODUCTION}/login`, {
     username: username,
     password: password
   }, {
@@ -37,7 +37,7 @@ const handleLogin = () => {
 }
 
 const getFav = () => {
-  Axios.get(`${API_LOCAL}/my-fav`).then(
+  Axios.get(`${API_PRODUCTION}/my-fav`).then(
     (response) => {
       const dataArray = response.data
       const favStockData = dataArray.map(item => item.stock_code)
@@ -52,7 +52,7 @@ const clearErrorHint = () => {
 
 // 拿到登入狀態
 useEffect(() => {
-  Axios.get(`${API_LOCAL}/login`)
+  Axios.get(`${API_PRODUCTION}/login`)
   .then((response) => {
     console.log(response.data.user)
     if(response.data.user) {
