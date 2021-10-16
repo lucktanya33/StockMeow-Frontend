@@ -10,7 +10,7 @@ import RegisterPage  from './pages/RegisterPage';
 import LoginPage  from './pages/LoginPage';
 import './App.css';
 import { API_PRODUCTION, API_HEROKU_PRICE, API_HEROKU_PE } from "./utils";
-import { AuthContext, PriceContext, PEContext, FavContext } from "./context";
+import { AuthContext, PriceContext, PEContext, FavContext, InfoContext } from "./context";
 import { createGlobalStyle } from 'styled-components'
 
 // styles
@@ -91,15 +91,25 @@ const getInfo = () => {
 }
 
 const organizeInfo = () => {
-    const infoAddKey = stockInfoPrice.map(item => ({'PE':'', ...item}))
-    for (let i = 0; i < infoAddKey.length; i ++) {
+    const infoProcessing = stockInfoPrice.map(item => ({'PE':'', 'Dividend':'', ...item}))
+    for (let i = 0; i < infoProcessing.length; i ++) {
+      // 結合PE, Dividend
       for (let x = 0; x < stockInfoPE.length; x ++) {
-        if (infoAddKey[i].Code == stockInfoPE[x].Code) {
-          infoAddKey[i].PE = stockInfoPE[x].PEratio
+        if (infoProcessing[i].Code == stockInfoPE[x].Code) {
+          infoProcessing[i].PE = stockInfoPE[x].PEratio
+          infoProcessing[i].Dividend = stockInfoPE[x].DividendYield
         }
       }
+      // 空白處理
+      if (infoProcessing[i].PE == '') {
+        infoProcessing[i].PE = '無資料'
+      }
+      if (infoProcessing[i].Dividend == '') {
+        infoProcessing[i].Dividend = '無資料'
+      }
     }
-    console.log('result', infoAddKey)
+    console.log('result', infoProcessing)
+    setInfoCompleted(infoProcessing)
 }
 
 /*const checkLoaded = () => {
@@ -116,6 +126,7 @@ const organizeInfo = () => {
 return (
   <PriceContext.Provider value={{stockInfoPrice, setStockInfoPrice}}>
   <PEContext.Provider value={{stockInfoPE, setStockInfoPE}}>
+  <InfoContext.Provider value={{infoCompleted, setInfoCompleted}}>
   <AuthContext.Provider value={{user, setUser}}>
   <FavContext.Provider value={{myFav, setMyFav}}>
   <GlobalStyle />
@@ -143,6 +154,7 @@ return (
   </Root>
   </FavContext.Provider>
   </AuthContext.Provider>
+  </InfoContext.Provider>
   </PEContext.Provider>
   </PriceContext.Provider>
 );

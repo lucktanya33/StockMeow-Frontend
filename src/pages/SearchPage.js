@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
-import { PriceContext, PEContext } from "../context"
+import { PriceContext, PEContext, InfoContext } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
 
@@ -98,7 +98,8 @@ function HotStockPage() {
   // 查詢-輸入中
   const [stockSearching, setStockSearching] = useState(null)
   // 查詢-結果
-  const [targetPrice, setTargetPrice] = useState([{
+  const [targetPrice, setTargetPrice] = useState([
+    {
     Code: "代號",
     Name: "股票名稱",
     ClosingPrice: '',
@@ -106,6 +107,16 @@ function HotStockPage() {
     }
   ])
   const [targetPE, setTargetPE] = useState([])
+  const [targetInfo, setTargetInfo] = useState([
+    {
+      Code: "代號",
+      Name: "股票名稱",
+      ClosingPrice: '',
+      MonthlyAveragePrice: '',
+      PE: '',
+      Dividend: ''
+    }
+  ])
   // 錯誤提醒
   const [searchFail, setSearchFail] = useState(false)
   const [searchDelay, setSearchDelay] = useState(false)
@@ -120,6 +131,7 @@ function HotStockPage() {
   // Context
   const { stockInfoPrice, setStockInfoPrice } = useContext(PriceContext)
   const { stockInfoPE, setStockInfoPE } = useContext(PEContext)
+  const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
  
   // 設定時間
   const today = new Date()
@@ -141,7 +153,7 @@ function HotStockPage() {
     return () => clearTimeout(timer);
   }, [])
 
-  const handleSearch = () => {
+  /*const handleSearch = () => {
     // 資料未載入完
     if (!isInfoLoaded) {
       setSearchDelay(true)
@@ -172,6 +184,36 @@ function HotStockPage() {
       setSearchFail(true)
       setTargetPrice([])
       setTargetPE([])
+    }
+  }*/
+  const handleSearch2 = () => {
+    // 資料未載入完
+    if (!infoCompleted) {
+      setSearchDelay(true)
+      return
+    }
+    // 清空
+    setSearchFail(false)
+    setTargetInfo([])
+    // 查詢邏輯
+    const searchingResult = 
+    infoCompleted.filter(item => item.Name == stockSearching || item.Code == stockSearching)
+    const validSearch = (
+      searchingResult.length!== 0
+    )
+    if (validSearch) {
+      setTargetInfo([
+        {
+          Code: searchingResult[0].Code,
+          Name: searchingResult[0].Name,
+          ClosingPrice: searchingResult[0].ClosingPrice,
+          MonthlyAveragePrice: searchingResult[0].MonthlyAveragePrice,
+          PE: searchingResult[0].PE,
+          Dividend: searchingResult[0].Dividend
+        } 
+      ])
+    } else {
+      setSearchFail(true)
     }
   }
 
@@ -223,7 +265,7 @@ function HotStockPage() {
     <div> 
     <Page>
     <SearchArea>
-    <form onSubmit={handleSearch}>
+    <form onSubmit={handleSearch2}>
       <SearchInput
       placeholder="輸入上市股票名稱/代號"
       onChange={(e) => setStockSearching(e.target.value)}
@@ -234,30 +276,30 @@ function HotStockPage() {
     </SearchArea>
     {searchFail && <h2>無效的查詢，請輸入正確代號或名稱</h2>}
     {searchDelay && <h2>資料庫有點延遲，再查詢一次！</h2>}
-    {!searchFail && (
+    {targetInfo && (
     <TargetWrap>
       <TargetHeader>
         <TargetName>
-          {targetPrice.map(item => item.Name)} {targetPrice.map(item => item.Code)}
+          {targetInfo.map(item => item.Name)} {targetInfo.map(item => item.Code)}
         </TargetName>
         <Time>{"更新時間 "}{latestTime}</Time>
       </TargetHeader>
         <TargetInfo>
           <Info>
             <p>股價</p>
-            <p>{targetPrice.map(item => item.ClosingPrice)}</p>
+            <p>{targetInfo.map(item => item.ClosingPrice)}</p>
           </Info>
           <Info>
             <p>月均價</p>
-            <p>{targetPrice.map(item => item.MonthlyAveragePrice)}</p>
+            <p>{targetInfo.map(item => item.MonthlyAveragePrice)}</p>
           </Info>
           <Info>
             <p>本益比</p>
-            <p>{targetPE.map(item => item.PEratio)}</p>
+            <p>{targetInfo.map(item => item.PE)}</p>
           </Info>
           <Info>
             <p>殖利率</p>
-            <p>{targetPE.map(item => item.DividendYield)}</p>
+            <p>{targetInfo.map(item => item.Dividend)}</p>
           </Info>
         </TargetInfo>
         {isInfoLoaded && (
