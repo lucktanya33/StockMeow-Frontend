@@ -10,7 +10,7 @@ import RegisterPage  from './pages/RegisterPage';
 import LoginPage  from './pages/LoginPage';
 import './App.css';
 import { API_PRODUCTION, API_HEROKU_PRICE, API_HEROKU_PE } from "./utils";
-import { AuthContext, PriceContext, PEContext, FavContext, InfoContext } from "./context";
+import { AuthContext, FavContext, InfoContext } from "./context";
 import { createGlobalStyle } from 'styled-components'
 
 // styles
@@ -124,8 +124,6 @@ const organizeInfo = () => {
 }*/
 
 return (
-  <PriceContext.Provider value={{stockInfoPrice, setStockInfoPrice}}>
-  <PEContext.Provider value={{stockInfoPE, setStockInfoPE}}>
   <InfoContext.Provider value={{infoCompleted, setInfoCompleted}}>
   <AuthContext.Provider value={{user, setUser}}>
   <FavContext.Provider value={{myFav, setMyFav}}>
@@ -155,8 +153,6 @@ return (
   </FavContext.Provider>
   </AuthContext.Provider>
   </InfoContext.Provider>
-  </PEContext.Provider>
-  </PriceContext.Provider>
 );
 }
 export default App;

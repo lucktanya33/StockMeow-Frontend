@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
-import { PriceContext, PEContext, InfoContext } from "../context"
+import { InfoContext } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
 
@@ -98,15 +98,6 @@ function HotStockPage() {
   // 查詢-輸入中
   const [stockSearching, setStockSearching] = useState(null)
   // 查詢-結果
-  const [targetPrice, setTargetPrice] = useState([
-    {
-    Code: "代號",
-    Name: "股票名稱",
-    ClosingPrice: '',
-    MonthlyAveragePrice: ''
-    }
-  ])
-  const [targetPE, setTargetPE] = useState([])
   const [targetInfo, setTargetInfo] = useState([
     {
       Code: "代號",
@@ -129,8 +120,6 @@ function HotStockPage() {
   }])
 
   // Context
-  const { stockInfoPrice, setStockInfoPrice } = useContext(PriceContext)
-  const { stockInfoPE, setStockInfoPE } = useContext(PEContext)
   const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
  
   // 設定時間
@@ -144,7 +133,7 @@ function HotStockPage() {
 
   // useEffect (每次render先串API拿資料存到states)
   useEffect(() => {
-    if (stockInfoPrice) {
+    if (infoCompleted) {
       setIsInfoLoaded(true)
     }
     const timer = setTimeout(() => {
@@ -225,12 +214,12 @@ function HotStockPage() {
   const handleCompare = () => {
     setErrorCompare(false)
     // 錯誤-無查詢資料加入比較
-    if(targetPrice[0].Code == "代號") {
+    if(targetInfo[0].Code == "代號") {
       setErrorCompare(true)
       return
     }
     // 預防-重複加入比較
-    const repeat = comparedTarget.filter(item => item.name == targetPrice[0].Name)
+    const repeat = comparedTarget.filter(item => item.name == targetInfo[0].Name)
     if(repeat.length > 0) {
       console.log(repeat);
       console.log(comparedTarget);
@@ -240,8 +229,8 @@ function HotStockPage() {
     setComparedTarget([
       {
         id: id.current,
-        name: targetPrice[0].Name,
-        price: targetPrice[0].ClosingPrice
+        name: targetInfo[0].Name,
+        price: targetInfo[0].ClosingPrice
 
       }, ...comparedTarget
     ])
@@ -249,9 +238,9 @@ function HotStockPage() {
   }
 
   const handleAddFav = () => {
-    console.log(targetPrice[0].Code);
+    console.log(targetInfo[0].Code);
     Axios.post(`${API_LOCAL}/my-fav`, {
-      stockCode: targetPrice[0].Code
+      stockCode: targetInfo[0].Code
     }).then(
       response => {
         console.log('post my fav code', response);
