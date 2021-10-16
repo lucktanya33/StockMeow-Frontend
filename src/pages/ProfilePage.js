@@ -1,13 +1,71 @@
-import { useContext } from 'react'
-import { FavContext } from './../context'
+import { useState, useEffect, useContext, useRef } from 'react'
+import { FavContext, InfoContext } from './../context'
+import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info } from '../StyleComponents'
 
 function ProfilePage() {
   const { myFav, setMyFav } = useContext(FavContext)
+  const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
+
+  // states
+  const [myFavInfo, setMyFavInfo] = useState([])
+
+  let myFavProcessing = []
+  const id = useRef(1)
+
+  useEffect(() => {
+    // 拿到喜愛股票的資料
+    myFav.forEach(element => {
+      infoCompleted.forEach(item => {
+        if (element == item.Code) {
+          console.log(item.Code)
+          myFavProcessing.push({
+            id: id.current,
+            Code: item.Code,
+            Name: item.Name,
+            ClosingPrice: item.ClosingPrice,
+            MonthlyAveragePrice: item.MonthlyAveragePrice,
+            PE: item.PE,
+            Dividend: item.Dividend
+          })
+          setMyFavInfo(myFavProcessing)
+          id.current ++
+        }
+      })
+    })
+  }, [myFav])
 
   return (
     <div>
     <h1>我的最愛股票</h1>
-    {myFav.map(item => <h3>{item}</h3>)}
+    {myFavInfo.filter(item => item.id > 0).map(item => 
+        <TargetWrap>
+          <TargetHeader>
+            <TargetName>
+              {item.Name} {item.Code}
+            </TargetName>
+            <Time>{"更新時間 "}時間待補</Time>
+          </TargetHeader>
+            <TargetInfo>
+              <Info>
+                <p>股價</p>
+                <p>{item.ClosingPrice}</p>
+              </Info>
+              <Info>
+                <p>月均價</p>
+                <p>{item.MonthlyAveragePrice}</p>
+              </Info>
+              <Info>
+                <p>本益比</p>
+                <p>{item.PE}</p>
+              </Info>
+              <Info>
+                <p>殖利率</p>
+                <p>{item.Dividend}</p>
+              </Info>              
+            </TargetInfo>
+        </TargetWrap>
+    )
+    }
     </div>
   )
 }

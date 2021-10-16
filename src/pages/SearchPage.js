@@ -4,6 +4,7 @@ import styled from "styled-components"
 import { InfoContext } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
+import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info } from '../StyleComponents'
 
 const Loading = styled.div`
   position: fixed;
@@ -49,41 +50,6 @@ const SearchButton = styled.button`
   : hover {
     background-color: ${props => props.theme.colors.vividBlue};
   }
-`
-const TargetWrap = styled.div`
-  width: 100%;
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: white;
-  box-sizing: border-box;
-`
-const TargetHeader = styled.div`
-  display: flex;
-  width: 100%;
-  padding: 5px;
-  box-sizing: border-box;
-`
-const TargetName = styled.span`
-  width: 60%;
-  padding: 0px 5px 0px 5px;
-  font-size : 28px;
-  font-weight: bold;
-  color: black;
-`
-const Time = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40%;
-  font-size: 14px;
-`
-const TargetInfo = styled.div`
-  padding: 0px 5px 0px 5px;
-  display: flex;
-  justify-content: space-around;
-`
-const Info = styled.div`
 `
 const ButtonCompare = styled(ButtonSmall)`
   color: ${props => props.theme.colors.darkBlue};
