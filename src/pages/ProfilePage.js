@@ -8,11 +8,19 @@ function ProfilePage() {
 
   // states
   const [myFavInfo, setMyFavInfo] = useState([])
+  const [ isLoaded, setIsLoaded] = useState(false)
 
   let myFavProcessing = []
   const id = useRef(1)
 
   useEffect(() => {
+    if(infoCompleted.length > 1000) {
+      setIsLoaded(true)
+    }
+  }, [infoCompleted])
+  useEffect(() => {
+    if (isLoaded) {
+    console.log('isLoaded');
     // 拿到喜愛股票的資料
     myFav.forEach(element => {
       infoCompleted.forEach(item => {
@@ -32,7 +40,8 @@ function ProfilePage() {
         }
       })
     })
-  }, [myFav])
+    }
+  }, [isLoaded])
 
   return (
     <div>

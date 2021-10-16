@@ -43,7 +43,7 @@ const getFav = () => {
       const favStockData = dataArray.map(item => item.stock_code)
       console.log(favStockData);
       setMyFav(favStockData)
-    })  
+    })
 }
 
 const clearErrorHint = () => {

@@ -50,7 +50,19 @@ useEffect(() => {
     })
     // 拿資料
     getInfo()
+    // 拿最愛
+    getFav()
 }, [])
+
+const getFav = () => {
+  Axios.get(`${API_PRODUCTION}/my-fav`).then(
+    (response) => {
+      const dataArray = response.data
+      const favStockData = dataArray.map(item => item.stock_code)
+      console.log(favStockData);
+      setMyFav(favStockData)
+    })
+}
 
 // 確認載入完全
 useEffect(() => {
