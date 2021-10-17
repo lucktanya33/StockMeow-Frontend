@@ -19,6 +19,7 @@ function ProfilePage() {
       setIsLoaded(true)
     }
   }, [infoCompleted])
+
   useEffect(() => {
     if (isLoaded) {
     // 拿到喜愛股票的資料
@@ -43,6 +44,29 @@ function ProfilePage() {
     }
   }, [isLoaded])
 
+  useEffect(() => {
+    if (myFav2) {
+    // 拿到喜愛股票的資料
+    myFav2.forEach(element => {
+      infoCompleted.forEach(item => {
+        if (element.stock_code == item.Code) {
+          console.log(item.Code)
+          myFavProcessing.push({
+            id: id.current,
+            Code: item.Code,
+            Name: item.Name,
+            ClosingPrice: item.ClosingPrice,
+            MonthlyAveragePrice: item.MonthlyAveragePrice,
+            PE: item.PE,
+            Dividend: item.Dividend
+          })
+          setMyFavInfo(myFavProcessing)
+          id.current ++
+        }
+      })
+    })
+    }
+  }, [myFav2])  
   return (
     <div>
     <h1>我的最愛股票</h1>

@@ -55,6 +55,14 @@ useEffect(() => {
     getFav()
 }, [])
 
+useEffect(() => {
+  // 拿最愛2
+  if (user) {
+    console.log('getFav2');
+    getFav2()
+    }
+}, [user])
+
 const getFav = () => {
   Axios.get(`${API_PRODUCTION}/my-fav`).then(
     (response) => {
@@ -63,6 +71,21 @@ const getFav = () => {
       console.log(favStockData);
       setMyFav(favStockData)
     })
+}
+
+const getFav2 = () => {
+  Axios.post(`${API_PRODUCTION}/my-fav2`, {
+    username: user.username,
+  }, {
+    headers: {"Content-Type": "application/json; charset=utf-8"}
+  }).then((response) => {
+    if (response.data.message) {
+      console.log(response.data.message)
+    } else {
+      console.log('post my fav2', response);
+      setMyFav2(response.data)
+    }
+  })
 }
 
 // 確認載入完全
