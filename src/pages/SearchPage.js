@@ -154,8 +154,6 @@ function HotStockPage() {
     // 預防-重複加入比較
     const repeat = comparedTarget.filter(item => item.name == targetInfo[0].Name)
     if(repeat.length > 0) {
-      console.log(repeat);
-      console.log(comparedTarget);
       return
     }
     // 加入比較

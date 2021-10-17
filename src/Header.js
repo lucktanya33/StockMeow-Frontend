@@ -2,8 +2,8 @@ import { useContext } from "react"
 import Axios from "axios";
 import styled from "styled-components"
 import { Link, useLocation } from "react-router-dom";
-import { AuthContext } from './context'
-import { API_PRODUCTION } from "./utils";
+import { AuthContext, Fav2Context } from './context'
+import { API_LOCAL, API_PRODUCTION } from "./utils";
 
 // styles
 const HeaderContainer = styled.div`
@@ -91,6 +91,8 @@ function Header() {
   // React router USAGE
   const location = useLocation()//location.pathname可以知道現在點擊的路徑
   const { user, setUser } = useContext(AuthContext)
+  const { myFav2, setMyFav2 } = useContext(Fav2Context)
+
   Axios.defaults.withCredentials = true
   
   // functions
@@ -99,6 +101,7 @@ function Header() {
     Axios.get(`${API_PRODUCTION}/logout`)
     .then((response) => {
       console.log('GET LOGOUT', response)
+      setMyFav2([])
     })
   }
   return (
@@ -108,6 +111,7 @@ function Header() {
     <LoginHint>
     {user ? ('你好 '+ user.username) : "請登入"}
     </LoginHint>
+    {(myFav2.length > 1) && myFav2[0].stock_code}
     <NavbarList>    
       <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
       <Nav to="/search" $active={location.pathname === '/search'}>查詢</Nav>

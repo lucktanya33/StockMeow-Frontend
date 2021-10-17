@@ -10,7 +10,7 @@ import RegisterPage  from './pages/RegisterPage';
 import LoginPage  from './pages/LoginPage';
 import './App.css';
 import { API_PRODUCTION, API_HEROKU_PRICE, API_HEROKU_PE } from "./utils";
-import { AuthContext, FavContext, InfoContext } from "./context";
+import { AuthContext, FavContext, Fav2Context, InfoContext } from "./context";
 import { createGlobalStyle } from 'styled-components'
 
 // styles
@@ -33,6 +33,7 @@ const [user, setUser] = useState(null)
 const [stockInfoPrice, setStockInfoPrice] = useState([])
 const [stockInfoPE, setStockInfoPE] = useState([])
 const [myFav, setMyFav] =useState([])
+const [myFav2, setMyFav2] =useState([])
 
 const [loaded, setLoaded] = useState(false)
 
@@ -67,7 +68,6 @@ const getFav = () => {
 // 確認載入完全
 useEffect(() => {
   if(stockInfoPrice.length > 1000) {
-    console.log(1);
     setLoaded(true)
   }
 }, [stockInfoPrice])
@@ -120,7 +120,6 @@ const organizeInfo = () => {
         infoProcessing[i].Dividend = '無資料'
       }
     }
-    console.log('result', infoProcessing)
     setInfoCompleted(infoProcessing)
 }
 
@@ -139,6 +138,7 @@ return (
   <InfoContext.Provider value={{infoCompleted, setInfoCompleted}}>
   <AuthContext.Provider value={{user, setUser}}>
   <FavContext.Provider value={{myFav, setMyFav}}>
+  <Fav2Context.Provider value={{myFav2, setMyFav2}}>
   <GlobalStyle />
   <Root>
     <Router>
@@ -162,6 +162,7 @@ return (
       </Switch>
     </Router>
   </Root>
+  </Fav2Context.Provider>
   </FavContext.Provider>
   </AuthContext.Provider>
   </InfoContext.Provider>

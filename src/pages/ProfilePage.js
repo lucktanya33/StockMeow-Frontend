@@ -1,10 +1,11 @@
 import { useState, useEffect, useContext, useRef } from 'react'
-import { FavContext, InfoContext } from './../context'
+import { FavContext, Fav2Context, InfoContext } from './../context'
 import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info } from '../StyleComponents'
 
 function ProfilePage() {
   const { myFav, setMyFav } = useContext(FavContext)
   const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
+  const { myFav2, setMyFav2 } = useContext(Fav2Context)
 
   // states
   const [myFavInfo, setMyFavInfo] = useState([])
@@ -20,11 +21,10 @@ function ProfilePage() {
   }, [infoCompleted])
   useEffect(() => {
     if (isLoaded) {
-    console.log('isLoaded');
     // 拿到喜愛股票的資料
-    myFav.forEach(element => {
+    myFav2.forEach(element => {
       infoCompleted.forEach(item => {
-        if (element == item.Code) {
+        if (element.stock_code == item.Code) {
           console.log(item.Code)
           myFavProcessing.push({
             id: id.current,
@@ -74,7 +74,7 @@ function ProfilePage() {
             </TargetInfo>
         </TargetWrap>
     )
-    }
+    }   
     </div>
   )
 }
