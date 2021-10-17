@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
-import { InfoContext } from "../context"
+import { InfoContext, AuthContext } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
 import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info } from '../StyleComponents'
@@ -87,6 +87,7 @@ function HotStockPage() {
 
   // Context
   const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
+  const { user, setUser } = useContext(AuthContext)
  
   // 設定時間
   const today = new Date()
@@ -172,6 +173,7 @@ function HotStockPage() {
   const handleAddFav = () => {
     console.log(targetInfo[0].Code);
     Axios.post(`${API_LOCAL}/my-fav`, {
+      username: user.username,
       stockCode: targetInfo[0].Code
     }).then(
       response => {
