@@ -108,7 +108,8 @@ function HotStockPage() {
     return () => clearTimeout(timer);
   }, [])
 
-  const handleSearch = () => {
+  const handleSearch = (e) => {
+    e.preventDefault()
     // 資料未載入完
     if (!infoCompleted) {
       setSearchDelay(true)
