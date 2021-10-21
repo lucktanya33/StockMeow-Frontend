@@ -78,6 +78,7 @@ function HotStockPage() {
   const [searchFail, setSearchFail] = useState(false)
   const [searchDelay, setSearchDelay] = useState(false)
   const [errorCompare, setErrorCompare] = useState(false)
+  const [errorAddFav, setErrorAddFav] = useState(false)
   // 比較
   const [comparedTarget, setComparedTarget] = useState([{
     id: 0,
@@ -171,7 +172,13 @@ function HotStockPage() {
   }
 
   const handleAddFav = () => {
-    console.log(targetInfo[0].Code);
+    // 未登入
+    if(!user) {
+      console.log('登入才能加到最愛')
+      setErrorAddFav(true)
+      return
+    }
+    // 已登入
     Axios.post(`${API_PRODUCTION}/my-fav`, {
       username: user.username,
       stockCode: targetInfo[0].Code
@@ -234,6 +241,7 @@ function HotStockPage() {
     </TargetWrap>
     )}
     {errorCompare && <h2>查詢股票後再加入比較！</h2>}
+    {errorAddFav && <h2>先登入才能加入最愛！</h2>}
     {comparedTarget.filter(item => item.id > 0).map(item =>
       <TargetWrap>
         <TargetHeader>
