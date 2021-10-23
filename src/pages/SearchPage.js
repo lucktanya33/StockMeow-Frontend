@@ -110,6 +110,16 @@ function HotStockPage() {
     return () => clearTimeout(timer);
   }, [])
 
+  // 兩秒後提示消失-加入追蹤
+  useEffect(() => {
+    if(errorAddFav) {
+      const timer2 = setTimeout(() => {
+        setErrorAddFav(false)
+      }, 2000)
+      return () => clearTimeout(timer2);
+    }
+  }, [errorAddFav])
+
   const handleSearch = (e) => {
     e.preventDefault()
     // 資料未載入完
