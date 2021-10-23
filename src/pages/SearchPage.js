@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { InfoContext, AuthContext } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL, API_PRODUCTION } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
-import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info } from '../StyleComponents'
+import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info, ErrorHint } from '../StyleComponents'
 
 const Loading = styled.div`
   position: fixed;
@@ -115,7 +115,7 @@ function HotStockPage() {
     if(errorAddFav) {
       const timer2 = setTimeout(() => {
         setErrorAddFav(false)
-      }, 2000)
+      }, 1400)
       return () => clearTimeout(timer2);
     }
   }, [errorAddFav])
@@ -251,7 +251,9 @@ function HotStockPage() {
     </TargetWrap>
     )}
     {errorCompare && <h2>查詢股票後再加入比較！</h2>}
-    {errorAddFav && <h2>先登入才能加入最愛！</h2>}
+    {errorAddFav && (
+        <ErrorHint>先登入才能加入最愛！</ErrorHint>
+    )}
     {comparedTarget.filter(item => item.id > 0).map(item =>
       <TargetWrap>
         <TargetHeader>

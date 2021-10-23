@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useContext } from "react"
 import Axios from "axios";
-import styled from "styled-components"
+import styled, { keyframes } from "styled-components"
 import { API_PRODUCTION } from "../utils";
 import { AuthContext } from "../context"
-import { ButtonSmall, TitlePage } from "../StyleComponents";
+import { ButtonSmall, TitlePage, ErrorHint, Example } from "../StyleComponents";
 
 // styled components
 const Page = styled.div`
@@ -79,15 +79,6 @@ const Loading = styled.div`
   justify-content: center;
 `
 
-const Wrap = styled.div`
-  width: 100%;
-  margin-top: 20px;
-  padding: 10px;
-  border-radius: 8px;
-  background-color: ${props => props.theme.colors.vividBlue};
-  border: 1px solid white;
-  box-sizing: border-box;
-`
 function Message({ id, author, time, title, content }) {
   return(
     <MessageContainer>
@@ -127,6 +118,16 @@ function HomePage() {
     useEffect(() => {
       updateMessages()
     }, [])
+
+    // 錯誤提示自動消失
+    useEffect(() => {
+      if(error) {
+        const timer2 = setTimeout(() => {
+          setError([])
+        }, 1400)
+        return () => clearTimeout(timer2);
+      }
+    }, [error])
   
   const updateMessages = () => {
     Axios.get(`${API_PRODUCTION}/posts`)
@@ -202,7 +203,7 @@ function HomePage() {
         <ButtonSmall>送出留言</ButtonSmall>
       </MessageForm>
       {error.status == 1 && (
-        <Wrap>{error.message}</Wrap>
+        <ErrorHint>{error.message}</ErrorHint>
       )}
       <MessageList>
         {messages.map(message => (

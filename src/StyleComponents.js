@@ -1,5 +1,5 @@
 import styled from "styled-components"
-
+import { keyframes } from "styled-components"
 export const TitlePage = styled.h1`
 color: ${props => props.theme.colors.darkGrey};
 margin: 30px;
@@ -92,4 +92,24 @@ export const TargetInfo = styled.div`
   justify-content: space-around;
 `
 export const Info = styled.div`
+`
+
+// animation 
+export const Example = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`
+export const ErrorHint = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid white;
+  box-sizing: border-box;
+  background-color: ${props => props.theme.colors.vividBlue};
+  animation: 1.55s ${Example} ease-out;
 `
