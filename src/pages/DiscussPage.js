@@ -124,7 +124,7 @@ function HomePage() {
       if(error) {
         const timer2 = setTimeout(() => {
           setError([])
-        }, 1400)
+        }, 1800)
         return () => clearTimeout(timer2);
       }
     }, [error])

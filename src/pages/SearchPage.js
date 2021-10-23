@@ -115,7 +115,7 @@ function HotStockPage() {
     if(errorAddFav) {
       const timer2 = setTimeout(() => {
         setErrorAddFav(false)
-      }, 1400)
+      }, 1800)
       return () => clearTimeout(timer2);
     }
   }, [errorAddFav])

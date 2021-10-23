@@ -111,5 +111,5 @@ export const ErrorHint = styled.div`
   border: 1px solid white;
   box-sizing: border-box;
   background-color: ${props => props.theme.colors.vividBlue};
-  animation: 1.55s ${Example} ease-out;
+  animation: 2s ${Example} ease-out;
 `
