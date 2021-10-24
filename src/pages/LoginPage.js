@@ -2,17 +2,24 @@ import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import { API_LOCAL, API_PRODUCTION } from '../utils'
 import { AuthContext, FavContext, Fav2Context } from '../context'
-import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
+import { ButtonSubmit, Input, InputTitle, TitlePage, ErrorHint } from '../StyleComponents'
 
 function LoginPage() {
 // setting
 Axios.defaults.withCredentials = true
 
 // states
-const [username, setUsername] = useState([])
-const [password, setPassword] = useState([])
+const [username, setUsername] = useState(null)
+const [password, setPassword] = useState(null)
 
-const [errMessageLogin, setErrMessageLogin] = useState('')
+// states-error
+const [error, setError] = useState([
+  {status: 0,
+  type: '',
+  message: ''
+  }
+])
+const [errorGetFav, setErrorGetFav] = useState(null)
 
 const { user, setUser } = useContext(AuthContext)
 const { myFav, setMyFav } = useContext(FavContext)
@@ -39,6 +46,15 @@ useEffect(() => {
 }, [user])
 
 const handleLogin = () => {
+  // 檢查空值
+  if (!username || !password) {
+    setError({
+      status: 1,
+      type: 'empty',
+      message: '填寫未完全'
+    })
+    return
+  }
   // 登入
   Axios.post(`${API_PRODUCTION}/login`, {
     username: username,
@@ -47,7 +63,11 @@ const handleLogin = () => {
     headers: {"Content-Type": "application/json; charset=utf-8"}
   }).then((response) => {
     if (response.data.message) {
-      setErrMessageLogin(response.data.message)
+      setError({
+        status: 1,
+        type: 'post',
+        message: '帳號或密碼錯誤'
+      })
     } else {
       console.log('response', response);
       setUserFE(username)
@@ -75,7 +95,7 @@ const getFav2 = () => {
     headers: {"Content-Type": "application/json; charset=utf-8"}
   }).then((response) => {
     if (response.data.message) {
-      setErrMessageLogin(response.data.message)
+      setErrorGetFav(response.data.message)
     } else {
       console.log('post my fav2', response);
       setMyFav2(response.data)
@@ -84,7 +104,7 @@ const getFav2 = () => {
 }
 
 const clearErrorHint = () => {
-  setErrMessageLogin('')
+  setError([])
 }
 
   return (
@@ -106,7 +126,9 @@ const clearErrorHint = () => {
             onFocus={clearErrorHint}           
             />
           <ButtonSubmit onClick={handleLogin}> 立刻登入 </ButtonSubmit> 
-        <h1>{errMessageLogin}</h1>
+        {error.status == 1 && (
+        <ErrorHint>{error.message}</ErrorHint>
+        )}
         {user && <h1>登入狀態：{user.username}</h1>}
       </div>    
     </div>
