@@ -111,7 +111,6 @@ function Header() {
     <LoginHint>
     {user ? ('你好 '+ user.username) : "請登入"}
     </LoginHint>
-    {(myFav2.length > 1) && myFav2[0].stock_code}
     <NavbarList>    
       <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
       <Nav to="/search" $active={location.pathname === '/search'}>查詢</Nav>
