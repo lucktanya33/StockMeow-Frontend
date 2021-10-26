@@ -95,6 +95,7 @@ function Message({ id, author, time, title, content }) {
 }
 
 function HomePage() {
+  console.log('just a test for rename repo');
   // States
   const [isSubmitting, setIsSubmitting] = useState(false)
 
