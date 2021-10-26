@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
-import { InfoContext, AuthContext } from "../context"
+import { InfoContext, AuthContext, Fav2Context } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL, API_PRODUCTION } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
 import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info, ErrorHint } from '../StyleComponents'
@@ -89,6 +89,7 @@ function HotStockPage() {
   // Context
   const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
   const { user, setUser } = useContext(AuthContext)
+  const { myFav2, setMyFav2 } = useContext(Fav2Context)
  
   // 設定時間
   const today = new Date()
@@ -194,9 +195,26 @@ function HotStockPage() {
       stockCode: targetInfo[0].Code
     }).then(
       response => {
-        console.log('post my fav code', response);
+        console.log('My fav code added!', response);
+        resetMyFav2()
       }
     )
+    
+    const resetMyFav2 = () => {
+      // 重設myFav2
+      Axios.post(`${API_PRODUCTION}/my-fav2`, {
+        username: user.username,
+      }, {
+        headers: {"Content-Type": "application/json; charset=utf-8"}
+      }).then((response) => {
+        if (response.data.message) {
+          console.log(response.data.message)
+        } else {
+          console.log('post my fav2', response);
+          setMyFav2(response.data)
+        }
+      })
+    }
   }
   return (
     <div>
