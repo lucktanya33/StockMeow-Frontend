@@ -121,5 +121,5 @@ export const SucceedHint = styled.div`
   border: 1px solid white;
   box-sizing: border-box;
   background-color: pink;
-  animation: 3s ${Example} ease-out;
+  animation: 10s ${Example} ease-out;
 `
