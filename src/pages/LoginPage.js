@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import { API_LOCAL, API_PRODUCTION } from '../utils'
 import { AuthContext, FavContext, Fav2Context } from '../context'
-import { ButtonSubmit, Input, InputTitle, TitlePage, ErrorHint } from '../StyleComponents'
+import { ButtonSubmit, Input, InputTitle, TitlePage, ErrorHint, SucceedHint } from '../StyleComponents'
 
 function LoginPage() {
 // setting
@@ -11,7 +11,7 @@ Axios.defaults.withCredentials = true
 // states
 const [username, setUsername] = useState(null)
 const [password, setPassword] = useState(null)
-
+const [actionSucceed, setActionSucceed] = useState(false)
 // states-error
 const [error, setError] = useState([
   {status: 0,
@@ -45,6 +45,17 @@ useEffect(() => {
   }
 }, [user])
 
+// 清除成功提示
+useEffect(() => {
+  if(actionSucceed) {
+    console.log('hi');
+    const timer = setTimeout(() => {
+      setActionSucceed(false)
+    }, 2300);
+    return () => clearTimeout(timer);
+  }
+}, [actionSucceed])
+
 const handleLogin = () => {
   // 檢查空值
   if (!username || !password) {
@@ -72,6 +83,7 @@ const handleLogin = () => {
       console.log('response', response);
       setUserFE(username)
       setUser(response.data[0])
+      setActionSucceed(true)
       setUsername('')
       setPassword('')
       //getFav()
@@ -133,6 +145,9 @@ const clearErrorHint = () => {
         {error.status == 1 && (
         <ErrorHint>{error.message}</ErrorHint>
         )}
+        {actionSucceed && 
+        <SucceedHint>成功登入</SucceedHint>
+        }
         {user && <h1>登入狀態：{user.username}</h1>}
       </div>    
     </div>

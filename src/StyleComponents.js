@@ -113,3 +113,13 @@ export const ErrorHint = styled.div`
   background-color: ${props => props.theme.colors.vividBlue};
   animation: 2s ${Example} ease-out;
 `
+export const SucceedHint = styled.div`
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid white;
+  box-sizing: border-box;
+  background-color: pink;
+  animation: 3s ${Example} ease-out;
+`
