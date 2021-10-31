@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
-import { API_LOCAL } from '../utils'
+import { API_LOCAL, API_PRODUCTION } from '../utils'
 import { AuthContext } from '../context'
 import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
 
@@ -12,7 +12,7 @@ const { user, setUser } = useContext(AuthContext)
 Axios.defaults.withCredentials = true
 
 const handleRegister = () => {
-  Axios.post(`${API_LOCAL}/register`, {
+  Axios.post(`${API_PRODUCTION}/register`, {
     username: usernameReg,
     password: passwordReg
   }).then((response) => {
@@ -21,7 +21,7 @@ const handleRegister = () => {
 
 // 拿到登入狀態
 useEffect(() => {
-  Axios.get(`${API_LOCAL}/login`)
+  Axios.get(`${API_PRODUCTION}/login`)
   .then((response) => {
     console.log(response.data.user)
     if(response.data.user) {
