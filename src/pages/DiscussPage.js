@@ -129,6 +129,15 @@ function HomePage() {
         return () => clearTimeout(timer2);
       }
     }, [error])
+    // 清空-非提交中
+    useEffect(() => {
+      if(!isSubmitting) {
+        console.log('NOT ISSUBMITTING');
+        setInputTitle('')
+      } else{
+        console.log('is submitting');
+      }
+    }, [isSubmitting])
   
   const updateMessages = () => {
     Axios.get(`${API_PRODUCTION}/posts`)
@@ -145,7 +154,7 @@ function HomePage() {
   }
 
   const handleFormSubmit = () => {
-    // 未登入
+    // 錯誤-未登入
     if (!user) {
       setError({
         status: 1,
@@ -154,7 +163,7 @@ function HomePage() {
       })
       return
     }
-    // 空值
+    // 錯誤-空值
     if (inputBody === '' || inputTitle === '') {
       setError({
         status: 1,
@@ -164,6 +173,7 @@ function HomePage() {
       return
     }
     setIsSubmitting(true)
+    // 提交
     Axios.post(`${API_PRODUCTION}/create-post`, {inputTitle, inputBody})
     .then((response) => {
       console.log(response);
