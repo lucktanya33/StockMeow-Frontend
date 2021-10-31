@@ -16,6 +16,8 @@ const handleRegister = () => {
     username: usernameReg,
     password: passwordReg
   }).then((response) => {
+    setPasswordReg('')
+    setUsernameReg('')
   })
 }
 
@@ -39,12 +41,14 @@ useEffect(() => {
             type="text"
             placeholder="輸入你的帳號..."
             onChange={(e) => setUsernameReg(e.target.value)}
+            value={usernameReg}
             />
           <InputTitle>密碼</InputTitle>
           <Input
             type="text"
             placeholder="輸入你的密碼..."
             onChange={(e) => setPasswordReg(e.target.value)}
+            value={passwordReg}
           />
           <ButtonSubmit onClick={handleRegister}>立即註冊</ButtonSubmit> 
       </div>   

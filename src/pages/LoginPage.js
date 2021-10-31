@@ -72,6 +72,8 @@ const handleLogin = () => {
       console.log('response', response);
       setUserFE(username)
       setUser(response.data[0])
+      setUsername('')
+      setPassword('')
       //getFav()
     }
   })
@@ -116,14 +118,16 @@ const clearErrorHint = () => {
             type="text"
             placeholder="輸入你的帳號..."
             onChange={(e) => setUsername(e.target.value)}
-            onFocus={clearErrorHint}          
+            onFocus={clearErrorHint}  
+            value={username}        
             />
           <InputTitle>密碼</InputTitle>
           <Input
             type="text"
             placeholder="輸入你的密碼..."
             onChange={(e) => setPassword(e.target.value)} 
-            onFocus={clearErrorHint}           
+            onFocus={clearErrorHint}
+            value={password} 
             />
           <ButtonSubmit onClick={handleLogin}> 立刻登入 </ButtonSubmit> 
         {error.status == 1 && (

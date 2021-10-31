@@ -156,6 +156,7 @@ function HotStockPage() {
   const clearSearchError = () => {
     setSearchFail(false)
     setSearchDelay(false)
+    setStockSearching('')
   }
 
   const handleCompare = () => {
@@ -228,6 +229,7 @@ function HotStockPage() {
       placeholder="輸入上市股票名稱/代號"
       onChange={(e) => setStockSearching(e.target.value)}
       onFocus={clearSearchError}
+      value={stockSearching}
       />
       <SearchButton>查詢</SearchButton>
     </form>

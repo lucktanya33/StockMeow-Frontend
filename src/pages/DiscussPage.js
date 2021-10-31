@@ -132,10 +132,9 @@ function HomePage() {
     // 清空-非提交中
     useEffect(() => {
       if(!isSubmitting) {
-        console.log('NOT ISSUBMITTING');
         setInputTitle('')
+        setInputBody('')
       } else{
-        console.log('is submitting');
       }
     }, [isSubmitting])
   
@@ -172,8 +171,8 @@ function HomePage() {
       })      
       return
     }
-    setIsSubmitting(true)
     // 提交
+    setIsSubmitting(true)
     Axios.post(`${API_PRODUCTION}/create-post`, {inputTitle, inputBody})
     .then((response) => {
       console.log(response);
@@ -202,12 +201,14 @@ function HomePage() {
         <TitleInput
         rows={3}
         placeholder={"輸入標題..."}
+        value={inputTitle}
         onChange={(e) => {setInputTitle(e.target.value)}}
-        onFocus={handleTextareaFocus}        
+        onFocus={handleTextareaFocus}
         />
         <BodyInput
         rows={10}
         placeholder={"輸入內容..."}
+        value={inputBody}
         onChange={(e) => {setInputBody(e.target.value)}}
         onFocus={handleTextareaFocus}
         />
