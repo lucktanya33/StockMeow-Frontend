@@ -109,7 +109,7 @@ function Header() {
     <LeftContainer>
     <Brand to="/">玩股喵</Brand>
     <LoginHint>
-    {user ? ('你好 '+ user.username) : "請登入"}
+    {user ? ('Hi '+ user.username) : "請登入"}
     </LoginHint>
     <NavbarList>    
       <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
