@@ -111,12 +111,10 @@ function Header() {
     <LoginHint>
     {user ? ('Hi '+ user.username) : "請登入"}
     </LoginHint>
-    <NavbarList>    
-      <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
-      <Nav to="/search" $active={location.pathname === '/search'}>查詢</Nav>
-    </NavbarList>
     </LeftContainer>
     <NavbarList>
+      <Nav to="/" $active={location.pathname === '/'}>討論</Nav>
+      <Nav to="/search" $active={location.pathname === '/search'}>查詢</Nav>
       {!user && (
         <Nav to="/register" $active={location.pathname === '/register'}>註冊</Nav>
       )}      
