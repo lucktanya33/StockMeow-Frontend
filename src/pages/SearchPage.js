@@ -4,7 +4,7 @@ import styled from "styled-components"
 import { InfoContext, AuthContext, Fav2Context } from "../context"
 import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL, API_PRODUCTION, latestTime } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
-import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info, ErrorHint } from '../StyleComponents'
+import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info, ErrorHint, SucceedHint } from '../StyleComponents'
 
 const Loading = styled.div`
   position: fixed;
@@ -79,6 +79,8 @@ function HotStockPage() {
   const [searchDelay, setSearchDelay] = useState(false)
   const [errorCompare, setErrorCompare] = useState(false)
   const [errorAddFav, setErrorAddFav] = useState(false)
+  // 成功提醒
+  const [actionSucceed, setActionSucceed] = useState(false)
   // 比較
   const [comparedTarget, setComparedTarget] = useState([{
     id: 0,
@@ -114,6 +116,16 @@ function HotStockPage() {
       return () => clearTimeout(timer2);
     }
   }, [errorAddFav])
+
+  // 清除成功提示
+  useEffect(() => {
+    if(actionSucceed) {
+      const timer = setTimeout(() => {
+        setActionSucceed(false)
+      }, 2300);
+      return () => clearTimeout(timer);
+    }
+  }, [actionSucceed])
 
   const handleSearch = (e) => {
     e.preventDefault()
@@ -207,6 +219,7 @@ function HotStockPage() {
         } else {
           console.log('post my fav2', response);
           setMyFav2(response.data)
+          setActionSucceed(true)
         }
       })
     }
@@ -268,6 +281,9 @@ function HotStockPage() {
     {errorAddFav && (
         <ErrorHint>先登入才能加入最愛！</ErrorHint>
     )}
+    {actionSucceed && 
+    <SucceedHint>成功加入我的最愛!至個人頁面查看</SucceedHint>
+    }
     {comparedTarget.filter(item => item.id > 0).map(item =>
       <TargetWrap>
         <TargetHeader>

@@ -48,7 +48,6 @@ useEffect(() => {
 // 清除成功提示
 useEffect(() => {
   if(actionSucceed) {
-    console.log('hi');
     const timer = setTimeout(() => {
       setActionSucceed(false)
     }, 2300);

@@ -2,11 +2,12 @@ import { useState, useEffect, useContext } from 'react'
 import Axios from 'axios'
 import { API_LOCAL, API_PRODUCTION } from '../utils'
 import { AuthContext } from '../context'
-import { ButtonSubmit, Input, InputTitle, TitlePage } from '../StyleComponents'
+import { ButtonSubmit, Input, InputTitle, TitlePage, SucceedHint } from '../StyleComponents'
 
 function LoginPage() {
 const [usernameReg, setUsernameReg] = useState([])
 const [passwordReg, setPasswordReg] = useState([])
+const [actionSucceed, setActionSucceed] = useState(false)
 const { user, setUser } = useContext(AuthContext)
 
 Axios.defaults.withCredentials = true
@@ -16,6 +17,7 @@ const handleRegister = () => {
     username: usernameReg,
     password: passwordReg
   }).then((response) => {
+    setActionSucceed(true)
     setPasswordReg('')
     setUsernameReg('')
   })
@@ -31,6 +33,16 @@ useEffect(() => {
     }
   })
 }, [])
+
+// 清除成功提示
+useEffect(() => {
+  if(actionSucceed) {
+    const timer = setTimeout(() => {
+      setActionSucceed(false)
+    }, 2300);
+    return () => clearTimeout(timer);
+  }
+}, [actionSucceed])
 
   return (
     <div className="App">
@@ -50,8 +62,11 @@ useEffect(() => {
             onChange={(e) => setPasswordReg(e.target.value)}
             value={passwordReg}
           />
-          <ButtonSubmit onClick={handleRegister}>立即註冊</ButtonSubmit> 
-      </div>   
+          <ButtonSubmit onClick={handleRegister}>立即註冊</ButtonSubmit>
+          {actionSucceed && 
+          <SucceedHint>成功註冊</SucceedHint>
+          }
+      </div>
     </div>
   );
 }
