@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useRef } from 'react'
 import { FavContext, Fav2Context, InfoContext } from './../context'
 import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info } from '../StyleComponents'
+import { latestTime } from '../utils'
 
 function ProfilePage() {
   const { myFav, setMyFav } = useContext(FavContext)
@@ -76,7 +77,7 @@ function ProfilePage() {
             <TargetName>
               {item.Name} {item.Code}
             </TargetName>
-            <Time>{"更新時間 "}時間待補</Time>
+            <Time>更新時間 {latestTime}</Time>
           </TargetHeader>
             <TargetInfo>
               <Info>

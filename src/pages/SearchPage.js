@@ -2,7 +2,7 @@ import { useState, useEffect, useContext, useRef } from 'react'
 import Axios from 'axios'
 import styled from "styled-components"
 import { InfoContext, AuthContext, Fav2Context } from "../context"
-import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL, API_PRODUCTION } from '../utils'
+import { API_STOCK_LOCAL, API_STOCK_REMOTE, API_HEROKU_PRICE, API_HEROKU_PE, API_LOCAL, API_PRODUCTION, latestTime } from '../utils'
 import { ButtonSmall } from '../StyleComponents'
 import { TargetWrap, TargetHeader, TargetName, TargetInfo, Time, Info, ErrorHint } from '../StyleComponents'
 
@@ -90,12 +90,6 @@ function HotStockPage() {
   const { infoCompleted, setInfoCompleted } = useContext(InfoContext)
   const { user, setUser } = useContext(AuthContext)
   const { myFav2, setMyFav2 } = useContext(Fav2Context)
- 
-  // 設定時間
-  const today = new Date()
-  const countYesterday = today - 1000*60*60*24
-  const yesterday = new Date(countYesterday)
-  const latestTime = yesterday.toLocaleDateString()
 
    //設定id
    const id = useRef(1)
