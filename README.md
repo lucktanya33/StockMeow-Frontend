@@ -3,7 +3,9 @@
 ## 簡介
 玩股喵是一個用 React 及 express.js 建立的簡易的股票資訊彙集網站，活潑簡明的介面讓使用者在上班或是聚會的時候也能夠看股票  
 平台使用者有兩種身份：一般使用者及會員。查詢系統提供個股基本資訊。註冊為會員後可以把個股加入我的最愛追蹤頁面，並且在討論區即時和大家討論盤勢和個股  
- ↳ [專案連結](https://lucktanya33.github.io/StockMeow-Frontend/#/)
+ ↳ [專案連結](https://lucktanya33.github.io/StockMeow-Frontend/#/)  
+ 
+ ![](https://i.imgur.com/az0EBuc.gif)
 
 ## 進行時間（進行中）
 2021/10~
