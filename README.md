@@ -54,6 +54,12 @@
 ### 會員-加入股票到我的最愛
 ![](https://i.imgur.com/KrYjKxR.gif)
 
-### UX優化-錯誤提示統一的提示元件
+### 會員-在論壇區發布討論
+![](https://i.imgur.com/xMmI5Y2.gif)
 
-### UX優化-每一次成功的操作有有提示
+### UX優化
+錯誤提示
+![](https://i.imgur.com/UDAfsDm.gif)
+
+成功提示
+![](https://i.imgur.com/8FdAI6j.gif)
