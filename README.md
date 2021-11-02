@@ -1,10 +1,12 @@
 # Stock Meow 玩股喵
 
 ## 簡介
-玩股喵是一個簡易的股票資訊彙集網站，活潑簡明的介面讓你在上班或是聚會的時候也能夠看股票，查詢系統提供個股最重要基本資訊。註冊為會員可以收藏有興趣的個股，並且在討論區即時和大家討論盤勢和個股  
-[專案連結](https://lucktanya33.github.io/StockMeow-Frontend/#/)
+玩股喵是一個用 React 及 express.js 建立的簡易的股票資訊彙集網站，活潑簡明的介面讓使用者在上班或是聚會的時候也能夠看股票  
+平台使用者有兩種身份：一般使用者及會員。查詢系統提供個股基本資訊。註冊為會員後可以把個股加入我的最愛追蹤頁面，並且在討論區即時和大家討論盤勢和個股  
+ ↳ [專案連結](https://lucktanya33.github.io/StockMeow-Frontend/#/)
 
 ## 進行時間（進行中）
+2021/10~
 
 ## 使用技術
 * ReactJS
@@ -16,10 +18,16 @@
 * MySQL
 * Heroku
 
-### 前端
+### 前端使用技術說明
+* styled-components - 以 CSS-in-JS 方式撰寫畫面
+* react-router - 製作分頁路由
+* useContext - 避免上下層過度依賴
+* Axios - 處理 Ajax 發送 HTTP 請求
+
+### 部署
 前端部署於 Github pages
-### 後端
 後端 server 部署於 Heroku
+
 ## 功能介紹
 ### 權限區分
 使用者、會員
