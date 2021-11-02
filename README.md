@@ -50,6 +50,12 @@
 
 
 ## 功能展示
+歡迎使用會員測試帳號登入使用，帳密如下：
+```
+會員
+帳號：stockholic
+密碼：ilovestock
+```
 ### 使用者-查詢並且加入比較
 ![](https://i.imgur.com/az0EBuc.gif)
 
